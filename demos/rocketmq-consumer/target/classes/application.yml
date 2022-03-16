@@ -1,0 +1,13 @@
+apache:
+  rocketmq:
+    consumer:
+      pushConsumer: myConsumer   #消息者组的名称
+    producer:
+      producerGroup: myProducer
+    name-server: localhost:9876 #mq servername 地址端口
+    topic: my-topic  #接收的主题
+server:
+  port: 18081
+spring:
+  application:
+    name: rocketmq-consumer

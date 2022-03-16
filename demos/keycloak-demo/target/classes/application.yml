@@ -1,0 +1,18 @@
+server:
+  port: 8090
+
+# keycloak安装服务器的IP和端口
+auth-server-url: http://localhost:8080/auth
+  # realm名称
+  keycloak.realm=SpringBoot
+  keycloak.public-client=true
+  # clientID名称
+  keycloak.resource=product-app
+keycloak:
+  # keycloak安装服务器的IP和端口
+  auth-server-url: http://localhost:8080/auth
+  # realm名称
+  realm: Springboot-product
+  # clientID名称
+  resource: product-app
+  public-client: true
