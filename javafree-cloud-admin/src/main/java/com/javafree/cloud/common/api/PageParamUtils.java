@@ -3,9 +3,11 @@ package com.javafree.cloud.common.api;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.JpaSort;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * 对分页参数对象进行处理
@@ -29,17 +31,40 @@ public class PageParamUtils {
         if(pageParam.getSorts()!=null)
         {
             //有排序字段对象
-            List<Sort.Order> orders = new ArrayList<Sort.Order>();
+            List<JpaSort.Order> orders = new ArrayList<JpaSort.Order>();
             //加入排序字段对象列表
             for (SortParam sort:pageParam.getSorts())
             {
-                Sort.Order tmpOrder = new Sort.Order(Sort.Direction.valueOf(sort.getDirection()), sort.getProperty());
+                //忽略desc和asc大小写
+                    String type=sort.getDirection().toUpperCase();
+                    switch(type){
+                        case "ASCEND":
+                            type="ASC";
+                            break;
+                        case "DESCEND":
+                            type="DESC";
+                            break;
+                        case "ASC":
+                            type="ASC";
+                            break;
+                        case "DESC":
+                            type="DESC";
+                            break;
+                        default:
+                            type="ASC";
+                            break;
+                    }
+                 //Sort.Order tmpOrder = new Sort.Order(Sort.Direction.valueOf(type), sort.getProperty());
+                JpaSort.Order tmpOrder=  JpaSort.unsafe(Sort.Direction.valueOf(type), sort.getProperty()).getOrderFor(sort.getProperty());
                 orders.add(tmpOrder);
             }
-            pageable = PageRequest.of(pageParam.getPage(), pageParam.getSize(), Sort.by(orders));
+           // JpaSort.unsafe()
+
+            //从业务传来的页码值，在数据库层则要减1，比如第一页页码是1，数据库分页，第一页是0，所以这里要减1
+            pageable = PageRequest.of(pageParam.getCurrentPage()-1, pageParam.getPageSize(),JpaSort.by(orders));
         }else {
             //无排序字段对象
-            pageable =PageRequest.of(pageParam.getPage(), pageParam.getSize());
+            pageable =PageRequest.of(pageParam.getCurrentPage()-1, pageParam.getPageSize());
         }
         return pageable;
     }

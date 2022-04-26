@@ -32,9 +32,9 @@ public class User  implements Serializable{
 	 */
 	@ApiModelProperty("主键id")
   	@Id
-	@GenericGenerator(name = "jpa-uuid", strategy = "uuid")
 	//自动生成主键，如果不指定，新增时则需要手动设置ID
-	@GeneratedValue(generator = "jpa-uuid")
+	@GenericGenerator(name = "uuid2", strategy = "org.hibernate.id.UUIDGenerator" )
+	@GeneratedValue(generator = "uuid2")
 	@Column(name = "id",length = 32)
 	@Length(min=1,max = 32,message = "长度范围在1-32之间")
 	private String id;

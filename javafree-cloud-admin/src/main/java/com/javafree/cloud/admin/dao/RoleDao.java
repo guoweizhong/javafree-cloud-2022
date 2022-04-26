@@ -9,8 +9,7 @@ package com.javafree.cloud.admin.dao;
 import com.javafree.cloud.admin.entity.Role;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
-import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
-@RepositoryRestResource(path="role")
+//@RepositoryRestResource(path="role")
 public interface RoleDao extends JpaRepository<Role, String> , JpaSpecificationExecutor<Role> {
 }

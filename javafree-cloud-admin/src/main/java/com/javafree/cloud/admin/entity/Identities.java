@@ -27,8 +27,8 @@ public class Identities  implements Serializable{
 	 */
 	@ApiModelProperty("主键id")
   	@Id
-	@GenericGenerator(name = "jpa-uuid", strategy = "uuid")
-	@GeneratedValue(generator = "jpa-uuid")
+	@GenericGenerator(name = "uuid2", strategy = "org.hibernate.id.UUIDGenerator" )
+	@GeneratedValue(generator = "uuid2")
 	@Column(name = "id",length = 32)
 	private String id;
 

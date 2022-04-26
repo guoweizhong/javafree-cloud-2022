@@ -9,8 +9,7 @@ package com.javafree.cloud.admin.dao;
 import com.javafree.cloud.admin.entity.Identities;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
-import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
-@RepositoryRestResource(path="identities")
+//@RepositoryRestResource(path="identities")
 public interface IdentitiesDao extends JpaRepository<Identities, String>, JpaSpecificationExecutor<Identities> {
 }

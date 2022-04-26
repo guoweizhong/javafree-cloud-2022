@@ -7,18 +7,16 @@ package com.javafree.cloud.admin.dao;
  */
 
 import com.javafree.cloud.admin.entity.Dept;
-import com.javafree.cloud.admin.entity.Dept;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
-import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-@RepositoryRestResource(path = "dept")
+//@RepositoryRestResource(path = "dept")
 public interface DeptDao extends JpaRepository<Dept, String>, JpaSpecificationExecutor<Dept> {
     /**
      * 注意更新和删除是需要加事务的， 并且要加上 @Modify的注解

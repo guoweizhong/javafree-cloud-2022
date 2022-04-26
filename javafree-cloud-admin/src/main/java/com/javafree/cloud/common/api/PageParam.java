@@ -34,29 +34,29 @@ public class PageParam implements Serializable {
     private static final long serialVersionUID = 5231391460048825825L;
 
     //页码
-    @ApiModelProperty("页码，默认为0")
-    int page;
+    @ApiModelProperty("当前页码，默认为1")
+    int currentPage;
     //每页条目数
     @ApiModelProperty("每页条目数，默认20条")
-    int size;
+    int pageSize;
 
     @ApiModelProperty("排序条件")
     List<SortParam> sorts;
 
-    public int getPage() {
-        return page;
+    public int getCurrentPage() {
+        return currentPage;
     }
 
-    public void setPage(int page) {
-        this.page = page;
+    public void setCurrentPage(int currentPage) {
+        this.currentPage = currentPage;
     }
 
-    public int getSize() {
-        return size;
+    public int getPageSize() {
+        return pageSize;
     }
 
-    public void setSize(int size) {
-        this.size = size;
+    public void setPageSize(int pageSize) {
+        this.pageSize = pageSize;
     }
 
     public List<SortParam> getSorts() {
@@ -68,10 +68,7 @@ public class PageParam implements Serializable {
     }
 
     public PageParam(){
-        page=0;
-        size=20;
+        currentPage=1;
+        pageSize=20;
     }
-
-
-
 }

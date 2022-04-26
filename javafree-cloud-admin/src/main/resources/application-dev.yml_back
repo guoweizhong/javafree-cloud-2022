@@ -63,7 +63,6 @@ spring:
     show-sql: true # 默认false，在日志里显示执行的sql语句
     hibernate:
       ddl-auto: update #指定为update，每次启动项目检测表结构有变化的时候会新增字段，表不存在时会新建，如果指定create，则每次启动项目都会清空数据并删除表，再新建
-      # 解决 pojo对象属性名有下划线，找不到属性问题
       naming-strategy: org.hibernate.cfg.ImprovedNamingStrategy
     properties:
       hibernate:
@@ -85,4 +84,4 @@ spring:
 # swagger配置项
 springfox:
   documentation:
-    enabled:  false #开发环境打开swagger功能,生产环境要关闭
+    enabled:  true #开发环境打开swagger功能,生产环境要关闭

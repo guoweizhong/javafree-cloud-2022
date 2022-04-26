@@ -27,8 +27,12 @@ public class Dept  implements Serializable{
 	 */
 	@ApiModelProperty("ID")
   	@Id
-	@GenericGenerator(name = "jpa-uuid", strategy = "uuid")
-	@GeneratedValue(generator = "jpa-uuid")
+	// 因出现 WARN  org.hibernate.id.UUIDHexGenerator:42 - HHH000409: Using org.hibernate.id.UUIDHexGenerator which does not generate IETF RFC 4122 compliant
+	//@GenericGenerator(name = "jpa-uuid", strategy = "uuid")
+	//@GeneratedValue(generator = "jpa-uuid")
+	//所以换成下面两行
+	@GenericGenerator(name = "uuid2", strategy = "org.hibernate.id.UUIDGenerator" )
+	@GeneratedValue(generator = "uuid2")
 	@Column(name = "id",length = 32)
 	private String id;
 

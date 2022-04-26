@@ -19,8 +19,8 @@ import org.hibernate.annotations.DynamicUpdate;
 
 
 @ApiModel(value = " UserVo对象 ", description = "UserVo对象,用于页面传参")
-@DynamicUpdate
-@DynamicInsert
+@DynamicUpdate //设置为true,表示Update对象的时候,生成动态的Update语句,如果这个字段的值是null就不会加入到Update语句当中.默认false
+@DynamicInsert  //设置为true,表示insert对象的时候,生成动态的insert语句,如果这个字段的值是null就不会加入到insert语句当中.默认false
 public class UserVo extends User {
 
     @Override

@@ -1,15 +1,13 @@
 package com.javafree.cloud.common.exception;
 
-import com.javafree.cloud.common.api.ApiResponse;
+import com.javafree.cloud.common.api.RestApiResponse;
 import com.javafree.cloud.common.utils.JsonUtils;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.ResponseStatus;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -38,9 +36,9 @@ public class GlobalExceptionHandler {
      */
     @ResponseBody
     @ExceptionHandler(value = JavafreeException.class)
-    public ApiResponse handleJavafreeException(JavafreeException e) {
+    public RestApiResponse handleJavafreeException(JavafreeException e) {
         log.error("系统发生异常：{}", getStackTrace(e));
-        return ApiResponse.ERROR(e);
+        return RestApiResponse.ERROR(e);
     }
 
     /**
@@ -52,10 +50,10 @@ public class GlobalExceptionHandler {
     @ExceptionHandler({SQLSyntaxErrorException.class,
             java.sql.SQLException.class,
             org.springframework.dao.InvalidDataAccessResourceUsageException.class})
-    public ApiResponse handleSQLSyntaxErrorException(SQLSyntaxErrorException e) {
+    public RestApiResponse handleSQLSyntaxErrorException(SQLSyntaxErrorException e) {
 
         log.error("数据库访问SQL异常：{}", getStackTrace(e));
-        return ApiResponse.ERROR(new JavafreeException(JavafreeExceptionType.SERVER_ERROR, "数据库访问SQL异常"));
+        return RestApiResponse.ERROR(new JavafreeException(JavafreeExceptionType.SERVER_ERROR, "数据库访问SQL异常"));
     }
 
     /**
@@ -65,7 +63,7 @@ public class GlobalExceptionHandler {
      */
     @ResponseBody
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ApiResponse handleValidationExceptions(
+    public RestApiResponse handleValidationExceptions(
             MethodArgumentNotValidException ex) {
         Map<String, String> errors = new HashMap<>();
         ex.getBindingResult().getAllErrors().forEach((error) -> {
@@ -75,7 +73,7 @@ public class GlobalExceptionHandler {
         });
         //输出异常信息
         log.error("用户提交数据字段值格式错误：校验信息为{} : 异常堆栈信息为：{}", JsonUtils.getJsonStringFromObject(errors),getStackTrace(ex));
-        return ApiResponse.ERROR(JavafreeExceptionType.CLIENT_ERROR,"用户提交数据字段值格式错误!");
+        return RestApiResponse.ERROR(JavafreeExceptionType.CLIENT_ERROR,"用户提交数据字段值格式错误!");
     }
 
     /**
@@ -85,10 +83,10 @@ public class GlobalExceptionHandler {
      */
     @ResponseBody
     @ExceptionHandler({RuntimeException.class})
-    public ApiResponse handleRunTimeException(RuntimeException e) {
+    public RestApiResponse handleRunTimeException(RuntimeException e) {
         //输出异常信息
         log.error("系统发生未知异常：{}", getStackTrace(e));
-        return ApiResponse.ERROR(new JavafreeException(JavafreeExceptionType.OTHER_ERROR));
+        return RestApiResponse.ERROR(new JavafreeException(JavafreeExceptionType.OTHER_ERROR));
     }
 
     /**

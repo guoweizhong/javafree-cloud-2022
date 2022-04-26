@@ -6,59 +6,63 @@ import javax.persistence.Table;
 import javax.persistence.Column;
 import javax.persistence.Id;
 import javax.persistence.GeneratedValue;
+import javax.validation.constraints.NotBlank;
+
 import org.hibernate.annotations.GenericGenerator;
 import java.util.Date;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 /**
- * @Description:    角色表
- * @Database:   表名为 sys_org_role
+ * @Description:    租户与机构的关联表
+ * @Database:   表名为  sys_org_tenant_dept
  */
 
 @Entity
-@Table(name ="sys_org_role")
-@ApiModel(value = " Role对象 ", description = "角色表")
-public class Role  implements Serializable{
+@Table(name ="sys_org_tenant_dept")
+@ApiModel(value = " TenantDept对象 ", description = "租户与机构的关联表")
+public class TenantDept  implements Serializable{
 
-	private static final Long serialVersionUID = -978713274439333041L;
+	private static final Long serialVersionUID = 3980613529871731883L;
 
 	/**
 	 * 主键id
 	 */
 	@ApiModelProperty("主键id")
   	@Id
-	@GenericGenerator(name = "uuid2", strategy = "org.hibernate.id.UUIDGenerator" )
+	@GenericGenerator(name = "uuid2", strategy = "org.hibernate.id.UUIDGenerator")
 	@GeneratedValue(generator = "uuid2")
 	@Column(name = "id",length = 32)
 	private String id;
 
 	/**
-	 * 角色名称
+	 * 租户ID
 	 */
-	@ApiModelProperty("角色名称")
-  	@Column(name = "role_name")
-	private String role_name;
+	@ApiModelProperty("租户ID")
+  	@Column(name = "tenant_id")
+	@NotBlank(message = "租户ID不能为空")
+	private String tenant_id;
 
 	/**
-	 * 角色编码
+	 * 机构ID
 	 */
-	@ApiModelProperty("角色编码")
-  	@Column(name = "role_code")
-	private String role_code;
+	@ApiModelProperty("机构ID")
+  	@Column(name = "dept_id")
+	@NotBlank(message = "机构ID不能为空")
+	private String dept_id;
 
 	/**
-	 * 角色类型，1默认，2职称、3岗位
+	 * 关联名称，由(租户名+关联对象名,用||分隔)名组成
 	 */
-	@ApiModelProperty("角色类型，1默认，2职称、3岗位")
-  	@Column(name = "role_type")
-	private String role_type;
+	@ApiModelProperty("关联名称，由(租户名+关联对象名,用||分隔)名组成")
+  	@Column(name = "name")
+	private String name;
 
 	/**
 	 * 排序
 	 */
 	@ApiModelProperty("排序")
-  	@Column(name = "role_order")
-	private Integer role_order;
+  	@Column(name = "rel_order")
+	private Integer rel_order;
 
 	/**
 	 * 描述
@@ -103,36 +107,36 @@ public class Role  implements Serializable{
 		this.id = id;
 	}
 
-	public String getRole_name() {
-		return role_name;
+	public String getTenant_id() {
+		return tenant_id;
 	}
 
-	public void setRole_name(String role_name) {
-		this.role_name = role_name;
+	public void setTenant_id(String tenant_id) {
+		this.tenant_id = tenant_id;
 	}
 
-	public String getRole_code() {
-		return role_code;
+	public String getDept_id() {
+		return dept_id;
 	}
 
-	public void setRole_code(String role_code) {
-		this.role_code = role_code;
+	public void setDept_id(String dept_id) {
+		this.dept_id = dept_id;
 	}
 
-	public String getRole_type() {
-		return role_type;
+	public String getName() {
+		return name;
 	}
 
-	public void setRole_type(String role_type) {
-		this.role_type = role_type;
+	public void setName(String name) {
+		this.name = name;
 	}
 
-	public Integer getRole_order() {
-		return role_order;
+	public Integer getRel_order() {
+		return rel_order;
 	}
 
-	public void setRole_order(Integer role_order) {
-		this.role_order = role_order;
+	public void setRel_order(Integer rel_order) {
+		this.rel_order = rel_order;
 	}
 
 	public String getDescription() {

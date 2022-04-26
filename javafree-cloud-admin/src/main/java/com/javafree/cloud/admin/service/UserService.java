@@ -8,22 +8,22 @@ package com.javafree.cloud.admin.service;
 
 import com.javafree.cloud.admin.entity.User;
 import com.javafree.cloud.common.api.PageParam;
-import org.springframework.data.domain.Page;
+import com.javafree.cloud.common.api.PageResult;
 
 import java.util.List;
 
 public interface UserService {
 
-    User saveUser(User User);
+    User saveUser(User user);
     void deleteUserByIds(List<String> ids);
     void deleteUser(String id);
 
     User getUserById(String id);
     User getUserByName(String userName);
 
-    Page<User> findUsersByRealname(String realname, PageParam pageParam);
+    PageResult<User> findUsersByRealname(String realname, PageParam pageParam);
 
-    Page<User> findUsersByUser(User user, PageParam pageParam);
+    PageResult<User> findUsersByUser(User user, PageParam pageParam);
 
-    Page<User> findUsersByUserAny(User user, PageParam pageParam);
+    PageResult<User> findUsersByUserAny(User user, PageParam pageParam);
 }

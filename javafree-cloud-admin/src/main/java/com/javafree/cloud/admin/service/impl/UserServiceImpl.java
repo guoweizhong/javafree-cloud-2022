@@ -11,12 +11,12 @@ import com.javafree.cloud.admin.entity.User;
 import com.javafree.cloud.admin.service.UserService;
 import com.javafree.cloud.common.api.PageParam;
 import com.javafree.cloud.common.api.PageParamUtils;
+import com.javafree.cloud.common.api.PageResult;
 import com.javafree.cloud.common.utils.JavaFreeBeanUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Service;
@@ -38,22 +38,22 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void deleteUser(String Userid) {
-        userDao.deleteUserById(Userid);
+    public void deleteUser(String id) {
+        userDao.deleteUserById(id);
     }
 
     @Override
-    public User getUserById(String Userid) {
-        return userDao.findById(Userid).orElse(null);
+    public User getUserById(String id) {
+        return userDao.findById(id).orElse(null);
     }
 
     @Override
-    public User getUserByName(String UserName) {
-        return userDao.getUserByName(UserName);
+    public User getUserByName(String name) {
+        return userDao.getUserByName(name);
     }
 
     @Override
-    public Page<User> findUsersByRealname(String realname, PageParam pageParam) {
+    public PageResult<User> findUsersByRealname(String realname, PageParam pageParam) {
         User User = new User();
         User.setRealname(realname);
         return findUsersByUser(User, pageParam);
@@ -77,7 +77,7 @@ public class UserServiceImpl implements UserService {
      * @return
      */
     @Override
-    public Page<User> findUsersByUser(User user, PageParam pageParam) {
+    public PageResult<User> findUsersByUser(User user, PageParam pageParam) {
         //通过pageparam 返回Pageable
         Pageable pageable = PageParamUtils.packagePageable(pageParam);
         //条件间的关系是and
@@ -92,7 +92,7 @@ public class UserServiceImpl implements UserService {
 
         Example<User> example = Example.of(user, matcher);
 
-        return userDao.findAll(example, pageable);
+        return PageResult.of(userDao.findAll(example, pageable));
     }
 
     /**
@@ -103,7 +103,7 @@ public class UserServiceImpl implements UserService {
      * @return
      */
     @Override
-    public Page<User> findUsersByUserAny(User User, PageParam pageParam) {
+    public PageResult<User> findUsersByUserAny(User User, PageParam pageParam) {
 
         //通过pageparam 返回Pageable
         Pageable pageable = PageParamUtils.packagePageable(pageParam);
@@ -118,13 +118,19 @@ public class UserServiceImpl implements UserService {
                 .withIgnorePaths("password");
         Example<User> example = Example.of(User, matcher);
 
-        return userDao.findAll(example, pageable);
+        return PageResult.of(userDao.findAll(example, pageable));
     }
 
+    /**
+     * 注意更新和删除是需要加事务的， 并且要加上 Modifying的注解
+     * clearAutomatically清除底层持久化上下文
+     * @param user
+     * @return
+     */
 
     @Transactional(propagation = Propagation.REQUIRES_NEW,
             rollbackFor = Exception.class)
-    @Modifying
+    @Modifying(clearAutomatically = true)
     public User saveUser(User user) {
         Assert.notNull(user, "User 对象不能为空.");
         User tempUser = new User();

@@ -1,3 +1,0 @@
-spring:
-  profiles:
-    active: dev #指定环境类型 (dev：开发，prod：生产，uat:用户验证，test:测试) 分别对应application-{环境类型}.yml文件

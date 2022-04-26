@@ -9,9 +9,9 @@ package com.javafree.cloud.admin.dao;
 import com.javafree.cloud.admin.entity.Group;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
-import org.springframework.data.rest.core.annotation.RepositoryRestResource;
+//import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
-@RepositoryRestResource(path="group")
+//@RepositoryRestResource(path="group")
 public interface GroupDao extends JpaRepository<Group,String> , JpaSpecificationExecutor<Group> {
 
 }
