@@ -1,0 +1,17 @@
+#bootstrap.yml
+spring:
+  application:
+    name: javafree-cloud-admin
+  cloud:
+
+    nacos:
+#      discovery:
+#        server-addr: 127.0.0.1:8848
+      config:
+        server-addr: 127.0.0.1:8848 #nacos中心地址
+        file-extension: yml # 配置文件格式
+        group: dev #指定分组
+        namespace: dev #指定命名空间
+
+  profiles:
+    active: dev #指定环境类型 (dev：开发，prod：生产，uat:用户验证，test:测试) 分别对应application-{环境类型}.yml文件

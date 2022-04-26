@@ -13,7 +13,6 @@
         <module>javafree-cloud-gateway</module>
         <module>javafree-cloud-auth-server</module>
         <module>demos</module>
-        <module>rocketmq-provider</module>
         <module>javafree-cloud-workflow</module>
     </modules>
     <packaging>pom</packaging>
@@ -35,6 +34,7 @@
         <spring-boot.version>2.5.10</spring-boot.version>
         <spring-cloud.version>2020.0.5</spring-cloud.version>
         <spring-cloud-alibaba.version>2.2.7.RELEASE</spring-cloud-alibaba.version>
+        <swagger.starter.version>3.0.0</swagger.starter.version>
         <druid.version>1.2.8</druid.version>
         <lombok.version>1.18.20</lombok.version>
         <oauth2-authorization-server.version>0.2.1</oauth2-authorization-server.version>
