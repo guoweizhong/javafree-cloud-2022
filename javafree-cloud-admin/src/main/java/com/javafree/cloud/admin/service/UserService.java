@@ -11,14 +11,22 @@ import com.javafree.cloud.common.api.PageParam;
 import com.javafree.cloud.common.api.PageResult;
 
 import java.util.List;
-
+/**
+ * @version V1.0
+ * @Description: User Service 接口
+ * @Author gwz  gwz126@126.com
+ * @Date 2022/6/7 15:17
+ */
 public interface UserService {
 
     User saveUser(User user);
+
     void deleteUserByIds(List<String> ids);
+
     void deleteUser(String id);
 
     User getUserById(String id);
+
     User getUserByName(String userName);
 
     PageResult<User> findUsersByRealname(String realname, PageParam pageParam);

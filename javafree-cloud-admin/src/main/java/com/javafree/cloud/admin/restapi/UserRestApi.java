@@ -13,9 +13,9 @@ import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.util.Assert;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -45,9 +45,9 @@ public class UserRestApi {
 
   @ApiOperation(value = "批量删除用户信息", notes = "用户ids用逗号(,)分隔")
   @DeleteMapping("/deleteUserByIds")
-  public RestApiResponse deleteUserByIds(@RequestParam(name = "userids", required = true) String userids){
-    userService.deleteUserByIds(Arrays.asList(userids.split(",")));
-    log.info("成功批量删除用户信息，用户IDS={}",userids);
+  public RestApiResponse deleteUserByIds(@RequestParam(name = "ids", required = true) String ids){
+    userService.deleteUserByIds(Arrays.asList(ids.split(",")));
+    log.info("成功批量删除用户信息，用户IDS={}",ids);
     return  RestApiResponse.OK("成功批量删除用户信息!");
   }
 
@@ -107,6 +107,16 @@ public class UserRestApi {
   @PostMapping("/findUsersByUserAny")
   public RestApiResponse<PageResult<User>> findUsersByUserAny(@RequestBody RestApiParamBody<User> apiParam) {
 
+    //为了前端提供关键字查询
+    User user=apiParam.getDataParam();
+    if (StringUtils.hasText(user.getUsername())){
+      //额外增加三个字段，电话，姓名、工号
+      user.setPhone(user.getUsername());
+      user.setRealname(user.getUsername());
+      user.setWorkNo(user.getUsername());
+      apiParam.setDataParam(user);
+    }
+
     PageResult<User>  userPage=userService.findUsersByUserAny(apiParam.getDataParam(),apiParam.getPageParam());
     if (null==userPage || userPage.getTotalElements()<1) {
       log.info("未找到用户信息,传入参数为:{}",JsonUtils.getJsonStringFromObject(apiParam));
@@ -142,9 +152,9 @@ public class UserRestApi {
    * @return
    */
   @ApiOperation(value = "新增或更新用户信息,包括用户密码字段",notes = "新增或更新用户信息,包括用户密码字段")
-  @PostMapping("/savaUserVo")
+  @PostMapping("/savaUserVO")
   //通过@Valid 开启属性值格式校验
-  public RestApiResponse<UserVo> savaUserVo(@Valid @RequestBody UserVo userVo){
+  public RestApiResponse<UserVo> savaUserVO(@Valid @RequestBody UserVo userVo){
     Assert.notNull(userVo, "UserVo 对象不能为空.");
     User tempUser=new User();
     //将传入的UserVo对象值copy到tempUser对象中，并忽略UserVo对象为空的属性

@@ -1,106 +1,140 @@
 package com.javafree.cloud.admin.entity;
 
-import java.io.Serializable;
-import javax.persistence.Entity;
-import javax.persistence.Table;
-import javax.persistence.Column;
-import javax.persistence.Id;
-import javax.persistence.GeneratedValue;
-import org.hibernate.annotations.GenericGenerator;
-import java.util.Date;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
+import org.hibernate.annotations.GenericGenerator;
+import org.springframework.data.annotation.CreatedDate;
+
+import javax.persistence.*;
+import java.io.Serializable;
+import java.util.Date;
+
 /**
  * @Description:    租户信息表
  * @Database:   表名为 sys_org_tenant
  */
 
 @Entity
+@DynamicUpdate
+@DynamicInsert
 @Table(name ="sys_org_tenant")
 @ApiModel(value = " Tenant对象 ", description = "租户信息表")
 public class Tenant  implements Serializable{
 
-	private static final Long serialVersionUID = -440377361092385371L;
+	private static final Long serialVersionUID = 5000011386803060891L;
 
 	/**
 	 * 主键id
 	 */
 	@ApiModelProperty("主键id")
-  	@Id
-	@GenericGenerator(name = "uuid2", strategy = "org.hibernate.id.UUIDGenerator" )
-	@GeneratedValue(generator = "uuid2")
-	@Column(name = "id",length = 32)
+	@Id
+	@GenericGenerator(name = "javafree_uuid", strategy = "com.javafree.cloud.common.id.JavaFreeUUIDGenerator")
+	@GeneratedValue(generator = "javafree_uuid")
+	@Column(name = "id",length = 22)
 	private String id;
 
 	/**
 	 * 租户名称
 	 */
 	@ApiModelProperty("租户名称")
-  	@Column(name = "name")
+	@Column(name = "name")
 	private String name;
 
 	/**
 	 * 租户编码，值唯一
 	 */
 	@ApiModelProperty("租户编码，值唯一")
-  	@Column(name = "tenant_code")
-	private String tenant_code;
+	@Column(name = "tenant_code")
+	private String tenantCode;
 
 	/**
 	 * 排序
 	 */
 	@ApiModelProperty("排序")
-  	@Column(name = "tenant_order")
-	private Integer tenant_order;
+	@Column(name = "tenant_order")
+	private Integer tenantOrder;
 
 	/**
 	 * 描述
 	 */
 	@ApiModelProperty("描述")
-  	@Column(name = "description")
+	@Column(name = "description")
 	private String description;
 
 	/**
 	 * 创建人
 	 */
 	@ApiModelProperty("创建人")
-  	@Column(name = "create_by")
-	private String create_by;
+	@Column(name = "create_by")
+	private String createBy;
 
 	/**
 	 * 创建时间
 	 */
 	@ApiModelProperty("创建时间")
-  	@Column(name = "create_time")
-	private Date create_time;
+	@CreatedDate
+	@Column(name = "create_time")
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+	private Date createTime;
+
+	@ApiModelProperty("创建时间查询，只用于查询，不持久")
+	@Transient
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+	private Date createTimeEnd;
 
 	/**
 	 * 更新人
 	 */
 	@ApiModelProperty("更新人")
-  	@Column(name = "update_by")
-	private String update_by;
+	@Column(name = "update_by")
+	private String updateBy;
 
 	/**
 	 * 更新时间
 	 */
 	@ApiModelProperty("更新时间")
-  	@Column(name = "update_time")
-	private Date update_time;
+	@Column(name = "update_time")
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+	@CreatedDate
+	private Date updateTime;
+
+	@ApiModelProperty("更新时间查询，只用于查询，不持久")
+	@Transient
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+	private Date updateTimeEnd;
+
+	public Date getCreateTimeEnd() {
+		return createTimeEnd;
+	}
+
+	public void setCreateTimeEnd(Date createTimeEnd) {
+		this.createTimeEnd = createTimeEnd;
+	}
+
+	public Date getUpdateTimeEnd() {
+		return updateTimeEnd;
+	}
+
+	public void setUpdateTimeEnd(Date updateTimeEnd) {
+		this.updateTimeEnd = updateTimeEnd;
+	}
 
 	/**
 	 * 状态 1正常 0冻结
 	 */
 	@ApiModelProperty("状态 1正常 0冻结")
-  	@Column(name = "status")
+	@Column(name = "status")
 	private Integer status;
 
 	/**
 	 * 用于字段扩展，可用json格式
 	 */
 	@ApiModelProperty("用于字段扩展，可用json格式")
-  	@Column(name = "ext_data")
-	private String ext_data;
+	@Column(name = "ext_data")
+	private String extData;
 
 	public String getId() {
 		return id;
@@ -118,20 +152,20 @@ public class Tenant  implements Serializable{
 		this.name = name;
 	}
 
-	public String getTenant_code() {
-		return tenant_code;
+	public String getTenantCode() {
+		return tenantCode;
 	}
 
-	public void setTenant_code(String tenant_code) {
-		this.tenant_code = tenant_code;
+	public void setTenantCode(String tenantCode) {
+		this.tenantCode = tenantCode;
 	}
 
-	public Integer getTenant_order() {
-		return tenant_order;
+	public Integer getTenantOrder() {
+		return tenantOrder;
 	}
 
-	public void setTenant_order(Integer tenant_order) {
-		this.tenant_order = tenant_order;
+	public void setTenantOrder(Integer tenantOrder) {
+		this.tenantOrder = tenantOrder;
 	}
 
 	public String getDescription() {
@@ -142,36 +176,36 @@ public class Tenant  implements Serializable{
 		this.description = description;
 	}
 
-	public String getCreate_by() {
-		return create_by;
+	public String getCreateBy() {
+		return createBy;
 	}
 
-	public void setCreate_by(String create_by) {
-		this.create_by = create_by;
+	public void setCreateBy(String createBy) {
+		this.createBy = createBy;
 	}
 
-	public Date getCreate_time() {
-		return create_time;
+	public Date getCreateTime() {
+		return createTime;
 	}
 
-	public void setCreate_time(Date create_time) {
-		this.create_time = create_time;
+	public void setCreateTime(Date createTime) {
+		this.createTime = createTime;
 	}
 
-	public String getUpdate_by() {
-		return update_by;
+	public String getUpdateBy() {
+		return updateBy;
 	}
 
-	public void setUpdate_by(String update_by) {
-		this.update_by = update_by;
+	public void setUpdateBy(String updateBy) {
+		this.updateBy = updateBy;
 	}
 
-	public Date getUpdate_time() {
-		return update_time;
+	public Date getUpdateTime() {
+		return updateTime;
 	}
 
-	public void setUpdate_time(Date update_time) {
-		this.update_time = update_time;
+	public void setUpdateTime(Date updateTime) {
+		this.updateTime = updateTime;
 	}
 
 	public Integer getStatus() {
@@ -182,12 +216,12 @@ public class Tenant  implements Serializable{
 		this.status = status;
 	}
 
-	public String getExt_data() {
-		return ext_data;
+	public String getExtData() {
+		return extData;
 	}
 
-	public void setExt_data(String ext_data) {
-		this.ext_data = ext_data;
+	public void setExtData(String extData) {
+		this.extData = extData;
 	}
 
 }

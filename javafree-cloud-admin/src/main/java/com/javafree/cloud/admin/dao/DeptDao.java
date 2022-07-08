@@ -7,6 +7,7 @@ package com.javafree.cloud.admin.dao;
  */
 
 import com.javafree.cloud.admin.entity.Dept;
+import com.javafree.cloud.admin.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Modifying;
@@ -16,7 +17,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-//@RepositoryRestResource(path = "dept")
 public interface DeptDao extends JpaRepository<Dept, String>, JpaSpecificationExecutor<Dept> {
     /**
      * 注意更新和删除是需要加事务的， 并且要加上 @Modify的注解
@@ -36,7 +36,7 @@ public interface DeptDao extends JpaRepository<Dept, String>, JpaSpecificationEx
      */
     @Transactional
     @Modifying
-    @Query("delete from Dept d where d.parent_id = ?1")
+    @Query("delete from Dept d where d.parentId = ?1")
     void deleteDeptByParentId(String parentid);
 
     /**
@@ -49,4 +49,19 @@ public interface DeptDao extends JpaRepository<Dept, String>, JpaSpecificationEx
     @Transactional
     @Query(value = "delete from Dept d where d.id in (:ids) ")
     int deleteDeptByIds(@Param("ids") List<String> ids);
+
+    /**
+     * 通过机构/部门名查询
+     * @param deptname
+     * @return
+     */
+    @Query("select d from Dept d where d.deptName = ?1")
+    Dept getUserByName(String deptname);
+
+    @Query("SELECT COUNT(d) FROM Dept d WHERE d.parentId=?1")
+    long getCountOfDept(String parentId);
+
+
+    @Query("SELECT d FROM Dept d order by d.deptOrder")
+    List<Dept> getAllDepts();
 }

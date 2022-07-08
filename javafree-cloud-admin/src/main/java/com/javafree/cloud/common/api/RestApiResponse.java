@@ -8,6 +8,8 @@ import org.springframework.http.HttpStatus;
 import com.javafree.cloud.common.exception.*;
 
 import java.io.Serializable;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.Date;
 
 /**
@@ -45,11 +47,25 @@ public class RestApiResponse<T> implements Serializable {
     private T data;
 
     /**
+     * 返回结果的服务器IP
+     */
+    @ApiModelProperty("返回结果的服务器IP")
+    private String host;
+
+    public String getHost() {
+        return host;
+    }
+
+    public void setHost(String host) {
+        this.host = host;
+    }
+
+    /**
      * 响应时间
      */
-    @ApiModelProperty("响应时间")
+    @ApiModelProperty("响应时间戳")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private Date time;
+    private Date timestamp;
 
     public int getStatus() {
         return status;
@@ -79,20 +95,21 @@ public class RestApiResponse<T> implements Serializable {
         return data;
     }
 
-    public void setData(T data) {
+    public RestApiResponse<T>  setData(T data) {
         this.data = data;
+        return this;
     }
 
-    public Date getTime() {
-        return time;
+    public Date getTimestamp() {
+        return timestamp;
     }
 
-    public void setTime(Date time) {
-        this.time = time;
+    public void setTimestamp(Date timestamp) {
+        this.timestamp = timestamp;
     }
 
     public RestApiResponse() {
-        time = new Date();
+        timestamp = new Date();
     }
 
     /**
@@ -108,9 +125,20 @@ public class RestApiResponse<T> implements Serializable {
         r.setStatus(status.value());
         r.setSuccess(status.value()>=200 & status.value()<300 ? true : false);
         r.setMessage(msg);
-        r.setTime(new Date());
+        r.setHost(getIp());
+        r.setTimestamp(new Date());
         r.setData(data);
         return r;
+    }
+
+    private static String getIp()   {
+        String ip = null;
+        try {
+            ip = InetAddress.getLocalHost().getHostAddress();
+        } catch (UnknownHostException e) {
+            e.printStackTrace();
+        }
+        return ip;
     }
 
     /**
@@ -121,11 +149,14 @@ public class RestApiResponse<T> implements Serializable {
      */
     public static RestApiResponse result(String msg, HttpStatus status) {
         RestApiResponse r = new RestApiResponse();
+        boolean bl=status!=null & status.value()>=200 & status.value()<300;
         r.setStatus(status.value());
-        r.setSuccess(200 == status.value() ? true : false);
+        r.setSuccess(bl);
+       // r.setSuccess(true);
         r.setMessage(msg);
-        r.setTime(new Date());
-        r.setData(null);
+        r.setHost(getIp());
+        r.setTimestamp(new Date());
+        //r.setData(null);
         return r;
     }
 
@@ -184,9 +215,11 @@ public class RestApiResponse<T> implements Serializable {
         RestApiResponse r = new RestApiResponse();
         r.setStatus(javafreeExceptionType.getCode());
         r.setSuccess(false);
+        //r.setSuccess(true);
+        r.setHost(getIp());
         r.setMessage(errorMessage);
-        r.setTime(new Date());
-        r.setData(null);
+        r.setTimestamp(new Date());
+       // r.setData(null);
         return r;
     }
 
@@ -200,9 +233,11 @@ public class RestApiResponse<T> implements Serializable {
         RestApiResponse r = new RestApiResponse();
         r.setStatus(e.getCode());
         r.setSuccess(false);
+        //r.setSuccess(true);
+        r.setHost(getIp());
         r.setMessage(e.getMessage());
-        r.setTime(new Date());
-        r.setData(null);
+        r.setTimestamp(new Date());
+        //r.setData(null);
         return r;
     }
 

@@ -14,6 +14,7 @@
         <module>javafree-cloud-auth-server</module>
         <module>demos</module>
         <module>javafree-cloud-workflow</module>
+        <module>javafree-cloud-core</module>
     </modules>
     <packaging>pom</packaging>
 

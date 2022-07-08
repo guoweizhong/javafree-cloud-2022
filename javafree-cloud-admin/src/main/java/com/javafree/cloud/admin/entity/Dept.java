@@ -1,39 +1,41 @@
 package com.javafree.cloud.admin.entity;
 
-import java.io.Serializable;
-import javax.persistence.Entity;
-import javax.persistence.Table;
-import javax.persistence.Column;
-import javax.persistence.Id;
-import javax.persistence.GeneratedValue;
-import org.hibernate.annotations.GenericGenerator;
-import java.util.Date;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.validator.constraints.Length;
+
+import javax.persistence.*;
+import java.io.Serializable;
+import java.util.Date;
+import java.util.List;
+
 /**
  * @Description:    组织机构表
- * @Database:   表名为 sys_org_dept
+ * @Database:   table name is sys_org_dept
  */
 
 @Entity
+@DynamicUpdate //只更新修改过且有值的字段
+@DynamicInsert//如果这个字段的值是null就不会加入到insert语句中
 @Table(name ="sys_org_dept")
-@ApiModel(value = " Dept对象 ", description = "组织机构表")
+@ApiModel(value = " Dept POJO ", description = "组织机构表")
 public class Dept  implements Serializable{
 
-	private static final Long serialVersionUID = -2419529423447976643L;
+	private static final Long serialVersionUID = 7376922721481619537L;
 
 	/**
 	 * ID
 	 */
 	@ApiModelProperty("ID")
-  	@Id
-	// 因出现 WARN  org.hibernate.id.UUIDHexGenerator:42 - HHH000409: Using org.hibernate.id.UUIDHexGenerator which does not generate IETF RFC 4122 compliant
-	//@GenericGenerator(name = "jpa-uuid", strategy = "uuid")
-	//@GeneratedValue(generator = "jpa-uuid")
-	//所以换成下面两行
-	@GenericGenerator(name = "uuid2", strategy = "org.hibernate.id.UUIDGenerator" )
-	@GeneratedValue(generator = "uuid2")
-	@Column(name = "id",length = 32)
+	@Id
+	@GenericGenerator(name = "javafree_uuid", strategy = "com.javafree.cloud.common.id.JavaFreeUUIDGenerator")
+	@GeneratedValue(generator = "javafree_uuid")
+	@Length(min=1,max = 22,message = "长度范围在1-22之间")
+	@Column(name = "id",length = 22)
 	private String id;
 
 	/**
@@ -41,21 +43,22 @@ public class Dept  implements Serializable{
 	 */
 	@ApiModelProperty("父机构ID")
   	@Column(name = "parent_id")
-	private String parent_id;
+	private String parentId;
+
 
 	/**
 	 * 机构/部门名称
 	 */
 	@ApiModelProperty("机构/部门名称")
   	@Column(name = "dept_name")
-	private String dept_name;
+	private String deptName;
 
 	/**
 	 * 排序
 	 */
 	@ApiModelProperty("排序")
   	@Column(name = "dept_order")
-	private Integer dept_order;
+	private Integer deptOrder;
 
 	/**
 	 * 描述
@@ -67,79 +70,106 @@ public class Dept  implements Serializable{
 	/**
 	 * 机构类别 1行政机构(默认)，2党组机构，3其他可扩展
 	 */
-	@ApiModelProperty("机构类别 1行政机构(默认)，2党组机构，3其他可扩展")
+	@ApiModelProperty("组织类别 1行政机构(默认)，2党组机构，3其他可扩展")
   	@Column(name = "org_category")
-	private String org_category;
+	private String orgCategory;
 
 	/**
-	 * 机构类型 1一级部门 2子部门
+	 * 机构类型 1机构(相对独立的单位) 2子部门
 	 */
-	@ApiModelProperty("机构类型 1一级部门 2子部门")
+	@ApiModelProperty("机构类型 1机构(相对独立的单位) 2子部门")
   	@Column(name = "org_type")
-	private String org_type;
+	private String orgType;
 
 	/**
-	 * 机构编码
+	 * 机构编码,只有机类型是机构时本身编码，当是部门类型时，是所属机构的编码
 	 */
-	@ApiModelProperty("机构编码")
+	@ApiModelProperty("机构编码,只有机类型是机构时本身编码，当是部门类型时，是所属机构的编码")
   	@Column(name = "org_code")
-	private String org_code;
+	private String orgCode;
 
 	/**
-	 * 备注
+	 * 机构简称，类型是机构时显示
 	 */
-	@ApiModelProperty("备注")
-  	@Column(name = "memo")
-	private String memo;
+	@ApiModelProperty("机构简称，类型是机构时显示")
+  	@Column(name = "shortname")
+	private String shortname;
 
 	/**
 	 * 状态（1启用，0不启用）
 	 */
 	@ApiModelProperty("状态（1启用，0不启用）")
-  	@Column(name = "status")
-	private String status;
+	@Column(name = "status")
+	private Integer status;
 
 	/**
-	 * 删除状态（0，正常，1已删除）
+	 * 标识用于业务扩展，如（1列选，0不列选）或其他状态
 	 */
-	@ApiModelProperty("删除状态（0，正常，1已删除）")
-  	@Column(name = "del_flag")
-	private String del_flag;
+	@ApiModelProperty("标识用于业务扩展，如（1列选，0不列选）或其他状态")
+  	@Column(name = "flag")
+	private String flag;
 
 	/**
 	 * 创建人
 	 */
 	@ApiModelProperty("创建人")
   	@Column(name = "create_by")
-	private String create_by;
+	private String createBy;
 
 	/**
 	 * 创建日期
 	 */
 	@ApiModelProperty("创建日期")
   	@Column(name = "create_time")
-	private Date create_time;
+  	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+	private Date createTime;
 
 	/**
 	 * 更新人
 	 */
 	@ApiModelProperty("更新人")
   	@Column(name = "update_by")
-	private String update_by;
+	private String updateBy;
 
 	/**
 	 * 更新日期
 	 */
 	@ApiModelProperty("更新日期")
   	@Column(name = "update_time")
-	private Date update_time;
+  	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+	private Date updateTime;
 
 	/**
 	 * 用于字段扩展，可用json格式
 	 */
 	@ApiModelProperty("用于字段扩展，可用json格式")
   	@Column(name = "ext_data")
-	private String ext_data;
+	private String extData;
+
+
+	//数据库表中不持久化
+	//@Transient
+	//json 返回时忽略
+	//@JsonIgnore
+	//private  Dept parent;
+
+	@Transient
+	private List<Dept> children ;
+
+	public List<Dept> getChildren() {
+		return children;
+	}
+
+	public void setChildren(List<Dept> children) {
+		this.children = children;
+	}
+//	public Dept getParent() {
+//		return parent;
+//	}
+//
+//	public void setParent(Dept parent) {
+//		this.parent = parent;
+//	}
 
 	public String getId() {
 		return id;
@@ -149,28 +179,28 @@ public class Dept  implements Serializable{
 		this.id = id;
 	}
 
-	public String getParent_id() {
-		return parent_id;
+	public String getParentId() {
+		return parentId;
 	}
 
-	public void setParent_id(String parent_id) {
-		this.parent_id = parent_id;
+	public void setParentId(String parentId) {
+		this.parentId = parentId;
 	}
 
-	public String getDept_name() {
-		return dept_name;
+	public String getDeptName() {
+		return deptName;
 	}
 
-	public void setDept_name(String dept_name) {
-		this.dept_name = dept_name;
+	public void setDeptName(String deptName) {
+		this.deptName = deptName;
 	}
 
-	public Integer getDept_order() {
-		return dept_order;
+	public Integer getDeptOrder() {
+		return deptOrder;
 	}
 
-	public void setDept_order(Integer dept_order) {
-		this.dept_order = dept_order;
+	public void setDeptOrder(Integer deptOrder) {
+		this.deptOrder = deptOrder;
 	}
 
 	public String getDescription() {
@@ -181,92 +211,92 @@ public class Dept  implements Serializable{
 		this.description = description;
 	}
 
-	public String getOrg_category() {
-		return org_category;
+	public String getOrgCategory() {
+		return orgCategory;
 	}
 
-	public void setOrg_category(String org_category) {
-		this.org_category = org_category;
+	public void setOrgCategory(String orgCategory) {
+		this.orgCategory = orgCategory;
 	}
 
-	public String getOrg_type() {
-		return org_type;
+	public String getOrgType() {
+		return orgType;
 	}
 
-	public void setOrg_type(String org_type) {
-		this.org_type = org_type;
+	public void setOrgType(String orgType) {
+		this.orgType = orgType;
 	}
 
-	public String getOrg_code() {
-		return org_code;
+	public String getOrgCode() {
+		return orgCode;
 	}
 
-	public void setOrg_code(String org_code) {
-		this.org_code = org_code;
+	public void setOrgCode(String orgCode) {
+		this.orgCode = orgCode;
 	}
 
-	public String getMemo() {
-		return memo;
+	public String getShortname() {
+		return shortname;
 	}
 
-	public void setMemo(String memo) {
-		this.memo = memo;
+	public void setShortname(String shortname) {
+		this.shortname = shortname;
 	}
 
-	public String getStatus() {
+	public Integer getStatus() {
 		return status;
 	}
 
-	public void setStatus(String status) {
+	public void setStatus(Integer status) {
 		this.status = status;
 	}
 
-	public String getDel_flag() {
-		return del_flag;
+	public String getFlag() {
+		return flag;
 	}
 
-	public void setDel_flag(String del_flag) {
-		this.del_flag = del_flag;
+	public void setFlag(String flag) {
+		this.flag = flag;
 	}
 
-	public String getCreate_by() {
-		return create_by;
+	public String getCreateBy() {
+		return createBy;
 	}
 
-	public void setCreate_by(String create_by) {
-		this.create_by = create_by;
+	public void setCreateBy(String createBy) {
+		this.createBy = createBy;
 	}
 
-	public Date getCreate_time() {
-		return create_time;
+	public Date getCreateTime() {
+		return createTime;
 	}
 
-	public void setCreate_time(Date create_time) {
-		this.create_time = create_time;
+	public void setCreateTime(Date createTime) {
+		this.createTime = createTime;
 	}
 
-	public String getUpdate_by() {
-		return update_by;
+	public String getUpdateBy() {
+		return updateBy;
 	}
 
-	public void setUpdate_by(String update_by) {
-		this.update_by = update_by;
+	public void setUpdateBy(String updateBy) {
+		this.updateBy = updateBy;
 	}
 
-	public Date getUpdate_time() {
-		return update_time;
+	public Date getUpdateTime() {
+		return updateTime;
 	}
 
-	public void setUpdate_time(Date update_time) {
-		this.update_time = update_time;
+	public void setUpdateTime(Date updateTime) {
+		this.updateTime = updateTime;
 	}
 
-	public String getExt_data() {
-		return ext_data;
+	public String getExtData() {
+		return extData;
 	}
 
-	public void setExt_data(String ext_data) {
-		this.ext_data = ext_data;
+	public void setExtData(String extData) {
+		this.extData = extData;
 	}
 
 }

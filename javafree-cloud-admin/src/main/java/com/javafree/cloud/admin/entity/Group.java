@@ -1,92 +1,96 @@
 package com.javafree.cloud.admin.entity;
 
-import java.io.Serializable;
-import javax.persistence.Entity;
-import javax.persistence.Table;
-import javax.persistence.Column;
-import javax.persistence.Id;
-import javax.persistence.GeneratedValue;
-import org.hibernate.annotations.GenericGenerator;
-import java.util.Date;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
+import org.hibernate.annotations.GenericGenerator;
+
+import javax.persistence.*;
+import java.io.Serializable;
+import java.util.Date;
 /**
  * @Description:    群组表
- * @Database:   表名为 sys_org_group
+ * @Database:   table name is sys_org_group
  */
 
 @Entity
+@DynamicInsert
+@DynamicUpdate
 @Table(name ="sys_org_group")
-@ApiModel(value = " Group对象 ", description = "群组表")
+@ApiModel(value = " Group POJO ", description = "群组表")
 public class Group  implements Serializable{
 
-	private static final Long serialVersionUID = 3432333289613368220L;
+	private static final Long serialVersionUID = 8680431031428398002L;
 
 	/**
 	 * 主键id
 	 */
 	@ApiModelProperty("主键id")
-  	@Id
-	@GenericGenerator(name = "uuid2", strategy = "org.hibernate.id.UUIDGenerator" )
-	@GeneratedValue(generator = "uuid2")
-	@Column(name = "id",length = 32)
+	@Id
+	@GenericGenerator(name = "javafree_uuid", strategy = "com.javafree.cloud.common.id.JavaFreeUUIDGenerator")
+	@GeneratedValue(generator = "javafree_uuid")
+	@Column(name = "id",length = 22)
 	private String id;
 
 	/**
 	 * 群组名称
 	 */
 	@ApiModelProperty("群组名称")
-  	@Column(name = "group_name")
-	private String group_name;
+	@Column(name = "group_name")
+	private String groupName;
 
 	/**
 	 * 群组编码
 	 */
 	@ApiModelProperty("群组编码")
-  	@Column(name = "group_code")
-	private String group_code;
+	@Column(name = "group_code")
+	private String groupCode;
 
 	/**
 	 * 排序
 	 */
 	@ApiModelProperty("排序")
-  	@Column(name = "group_order")
-	private Integer group_order;
+	@Column(name = "group_order")
+	private Integer groupOrder;
 
 	/**
 	 * 描述
 	 */
 	@ApiModelProperty("描述")
-  	@Column(name = "description")
+	@Column(name = "description")
 	private String description;
 
 	/**
 	 * 创建人
 	 */
 	@ApiModelProperty("创建人")
-  	@Column(name = "create_by")
-	private String create_by;
+	@Column(name = "create_by")
+	private String createBy;
 
 	/**
 	 * 创建时间
 	 */
 	@ApiModelProperty("创建时间")
-  	@Column(name = "create_time")
-	private Date create_time;
+	@Column(name = "create_time")
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+	private Date createTime;
 
 	/**
 	 * 更新人
 	 */
 	@ApiModelProperty("更新人")
-  	@Column(name = "update_by")
-	private String update_by;
+	@Column(name = "update_by")
+	private String updateBy;
 
 	/**
 	 * 更新时间
 	 */
 	@ApiModelProperty("更新时间")
-  	@Column(name = "update_time")
-	private Date update_time;
+	@Column(name = "update_time")
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+	private Date updateTime;
 
 	public String getId() {
 		return id;
@@ -96,28 +100,28 @@ public class Group  implements Serializable{
 		this.id = id;
 	}
 
-	public String getGroup_name() {
-		return group_name;
+	public String getGroupName() {
+		return groupName;
 	}
 
-	public void setGroup_name(String group_name) {
-		this.group_name = group_name;
+	public void setGroupName(String groupName) {
+		this.groupName = groupName;
 	}
 
-	public String getGroup_code() {
-		return group_code;
+	public String getGroupCode() {
+		return groupCode;
 	}
 
-	public void setGroup_code(String group_code) {
-		this.group_code = group_code;
+	public void setGroupCode(String groupCode) {
+		this.groupCode = groupCode;
 	}
 
-	public Integer getGroup_order() {
-		return group_order;
+	public Integer getGroupOrder() {
+		return groupOrder;
 	}
 
-	public void setGroup_order(Integer group_order) {
-		this.group_order = group_order;
+	public void setGroupOrder(Integer groupOrder) {
+		this.groupOrder = groupOrder;
 	}
 
 	public String getDescription() {
@@ -128,36 +132,36 @@ public class Group  implements Serializable{
 		this.description = description;
 	}
 
-	public String getCreate_by() {
-		return create_by;
+	public String getCreateBy() {
+		return createBy;
 	}
 
-	public void setCreate_by(String create_by) {
-		this.create_by = create_by;
+	public void setCreateBy(String createBy) {
+		this.createBy = createBy;
 	}
 
-	public Date getCreate_time() {
-		return create_time;
+	public Date getCreateTime() {
+		return createTime;
 	}
 
-	public void setCreate_time(Date create_time) {
-		this.create_time = create_time;
+	public void setCreateTime(Date createTime) {
+		this.createTime = createTime;
 	}
 
-	public String getUpdate_by() {
-		return update_by;
+	public String getUpdateBy() {
+		return updateBy;
 	}
 
-	public void setUpdate_by(String update_by) {
-		this.update_by = update_by;
+	public void setUpdateBy(String updateBy) {
+		this.updateBy = updateBy;
 	}
 
-	public Date getUpdate_time() {
-		return update_time;
+	public Date getUpdateTime() {
+		return updateTime;
 	}
 
-	public void setUpdate_time(Date update_time) {
-		this.update_time = update_time;
+	public void setUpdateTime(Date updateTime) {
+		this.updateTime = updateTime;
 	}
 
 }

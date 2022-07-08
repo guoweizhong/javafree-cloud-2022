@@ -3,11 +3,13 @@ package com.javafree.cloud.common.exception;
 import com.javafree.cloud.common.api.RestApiResponse;
 import com.javafree.cloud.common.utils.JsonUtils;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -38,7 +40,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(value = JavafreeException.class)
     public RestApiResponse handleJavafreeException(JavafreeException e) {
         log.error("系统发生异常：{}", getStackTrace(e));
-        return RestApiResponse.ERROR(e);
+        return RestApiResponse.ERROR(e).setData(e.getMessage());
     }
 
     /**
@@ -53,7 +55,7 @@ public class GlobalExceptionHandler {
     public RestApiResponse handleSQLSyntaxErrorException(SQLSyntaxErrorException e) {
 
         log.error("数据库访问SQL异常：{}", getStackTrace(e));
-        return RestApiResponse.ERROR(new JavafreeException(JavafreeExceptionType.SERVER_ERROR, "数据库访问SQL异常"));
+        return RestApiResponse.ERROR(new JavafreeException(JavafreeExceptionType.SERVER_ERROR, "数据库访问SQL异常")).setData(e.getMessage());
     }
 
     /**
@@ -73,7 +75,7 @@ public class GlobalExceptionHandler {
         });
         //输出异常信息
         log.error("用户提交数据字段值格式错误：校验信息为{} : 异常堆栈信息为：{}", JsonUtils.getJsonStringFromObject(errors),getStackTrace(ex));
-        return RestApiResponse.ERROR(JavafreeExceptionType.CLIENT_ERROR,"用户提交数据字段值格式错误!");
+        return RestApiResponse.ERROR(JavafreeExceptionType.CLIENT_ERROR,"用户提交数据字段值格式错误!").setData(ex.getMessage());
     }
 
     /**
@@ -86,7 +88,19 @@ public class GlobalExceptionHandler {
     public RestApiResponse handleRunTimeException(RuntimeException e) {
         //输出异常信息
         log.error("系统发生未知异常：{}", getStackTrace(e));
-        return RestApiResponse.ERROR(new JavafreeException(JavafreeExceptionType.OTHER_ERROR));
+        return RestApiResponse.ERROR(new JavafreeException(JavafreeExceptionType.OTHER_ERROR)).setData(e.getMessage());
+    }
+
+    /**
+     * 未知异常
+     * @param e
+     * @return
+     */
+    @ResponseBody
+    @ExceptionHandler(Exception.class)
+    public RestApiResponse handleIllegalArgumentException(Exception e) {
+        log.warn("未知错误：{0}", e);
+        return RestApiResponse.ERROR(new JavafreeException(JavafreeExceptionType.OTHER_ERROR)).setData(e.getMessage());
     }
 
     /**

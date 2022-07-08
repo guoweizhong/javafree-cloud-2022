@@ -47,6 +47,6 @@ public interface TenantDao extends JpaRepository<Tenant, String>, JpaSpecificati
      * @param code
      * @return
      */
-    @Query("select t from Tenant t where t.tenant_code = ?1")
+    @Query("select t from Tenant t where t.tenantCode = ?1")
     Tenant getTenantByCode(String code);
 }

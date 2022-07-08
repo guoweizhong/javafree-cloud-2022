@@ -1,66 +1,70 @@
 package com.javafree.cloud.admin.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 import java.util.Date;
 /**
  * @Description:    用户表
- * @Database:   表名为 sys_org_User
+ * @Database:   table name is sys_org_user
  */
 
 @Entity
-@Table(name ="sys_org_User")
-@ApiModel(value = " User对象 ", description = "用户表")
-@DynamicUpdate //只更新修改过且有值的字段
-@DynamicInsert//如果这个字段的值是null就不会加入到insert语句中
+@DynamicInsert
+@DynamicUpdate
+@Table(name ="sys_org_user")
+@ApiModel(value = " User POJO ", description = "用户表")
 public class User  implements Serializable{
 
-	private static final Long serialVersionUID = 5168186435465409123L;
+	private static final Long serialVersionUID = 340634693098971099L;
 
 	/**
 	 * 主键id
 	 */
 	@ApiModelProperty("主键id")
-  	@Id
-	//自动生成主键，如果不指定，新增时则需要手动设置ID
-	@GenericGenerator(name = "uuid2", strategy = "org.hibernate.id.UUIDGenerator" )
-	@GeneratedValue(generator = "uuid2")
-	@Column(name = "id",length = 32)
-	@Length(min=1,max = 32,message = "长度范围在1-32之间")
+	@Id
+	@GenericGenerator(name = "javafree_uuid", strategy = "com.javafree.cloud.common.id.JavaFreeUUIDGenerator")
+	@GeneratedValue(generator = "javafree_uuid")
+	@Column(name = "id",length = 22)
 	private String id;
 
 	/**
-	 * 登录账号
+	 * 登录账号，唯一
 	 */
-	@ApiModelProperty("登录账号")
-  	@Column(name = "username")
-	@NotBlank(message = "用户登录名不能为空")
+	@ApiModelProperty("登录账号，唯一")
+	@Column(name = "username")
 	private String username;
 
 	/**
 	 * 真实姓名
 	 */
 	@ApiModelProperty("真实姓名")
-  	@Column(name = "realname")
-	@NotBlank(message = "用户真实姓名不能为空")
+	@Column(name = "realname")
 	private String realname;
+
+
+	/**
+	 * 排序
+	 */
+	@ApiModelProperty("排序")
+	@Column(name = "user_order")
+	private Integer userOrder;
+
+
 
 	/**
 	 * 密码
 	 */
 	@ApiModelProperty("密码")
-  	@Column(name = "password")
-	 //在接口中不返回密码数据
+	@Column(name = "password")
+	//在接口中不返回密码数据
 	@JsonIgnore
 	private String password;
 
@@ -68,107 +72,104 @@ public class User  implements Serializable{
 	 * md5密码盐
 	 */
 	@ApiModelProperty("md5密码盐")
-  	@Column(name = "salt")
+	@Column(name = "salt")
 	private String salt;
 
 	/**
 	 * 头像
 	 */
 	@ApiModelProperty("头像")
-  	@Column(name = "avatar")
+	@Column(name = "avatar")
 	private String avatar;
 
-	/**
-	 * 生日
-	 */
-	@ApiModelProperty("生日")
-  	@Column(name = "birthday")
-	private Date birthday;
+
 
 	/**
 	 * 性别(0-默认未知,1-男,2-女)
 	 */
 	@ApiModelProperty("性别(0-默认未知,1-男,2-女)")
-  	@Column(name = "sex")
+	@Column(name = "sex")
 	private Integer sex;
 
 	/**
 	 * 电子邮件
 	 */
 	@ApiModelProperty("电子邮件")
-  	@Column(name = "email")
-	@Email(message = "邮箱格式")
+	@Column(name = "email")
 	private String email;
 
 	/**
 	 * 电话
 	 */
 	@ApiModelProperty("电话")
-  	@Column(name = "phone")
+	@Column(name = "phone")
 	private String phone;
 
 	/**
 	 * 状态(1-正常,2-冻结)
 	 */
 	@ApiModelProperty("状态(1-正常,2-冻结)")
-  	@Column(name = "status")
+	@Column(name = "status")
 	private Integer status;
 
-	/**
-	 * 删除状态(0-正常,1-已删除)
-	 */
-	@ApiModelProperty("删除状态(0-正常,1-已删除)")
-  	@Column(name = "del_flag")
-	private Integer del_flag;
 
 	/**
 	 * 工号，唯一键
 	 */
 	@ApiModelProperty("工号，唯一键")
-  	@Column(name = "work_no")
-	private String work_no;
+	@Column(name = "work_no")
+	private String workNo;
 
 	/**
 	 * 创建人
 	 */
 	@ApiModelProperty("创建人")
-  	@Column(name = "create_by")
-	private String create_by;
+	@Column(name = "create_by")
+	private String createBy;
 
 	/**
 	 * 创建时间
 	 */
 	@ApiModelProperty("创建时间")
-  	@Column(name = "create_time")
-	private Date create_time;
+	@Column(name = "create_time")
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+	private Date createTime;
 
 	/**
 	 * 更新人
 	 */
 	@ApiModelProperty("更新人")
-  	@Column(name = "update_by")
-	private String update_by;
+	@Column(name = "update_by")
+	private String updateBy;
 
 	/**
 	 * 更新时间
 	 */
 	@ApiModelProperty("更新时间")
-  	@Column(name = "update_time")
-	private Date update_time;
+	@Column(name = "update_time")
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+	private Date updateTime;
 
 	/**
-	 * 用户类型，可按业务需要扩展（1普通成员 2管理员...）
+	 * 用户类型，可按业务需要扩展（1普通用户 2管理员...）
 	 */
-	@ApiModelProperty("用户类型，可按业务需要扩展（1普通成员 2管理员...）")
-  	@Column(name = "User_type")
-	private Integer User_type;
+	@ApiModelProperty("用户类型，可按业务需要扩展（1普通用户 2管理员...）")
+	@Column(name = "user_type")
+	private Integer userType;
 
 	/**
 	 * 用于字段扩展，可用json格式
 	 */
 	@ApiModelProperty("用于字段扩展，可用json格式")
-  	@Column(name = "ext_data")
-	private String ext_data;
+	@Column(name = "ext_data")
+	private String extData;
+
+	/**
+	 * 昵称
+	 */
+	@ApiModelProperty("昵称")
+	@Column(name = "nickname")
+	private String nickname;
 
 	public String getId() {
 		return id;
@@ -186,6 +187,13 @@ public class User  implements Serializable{
 		this.username = username;
 	}
 
+	public Integer getUserOrder() {
+		return userOrder;
+	}
+
+	public void setUserOrder(Integer userOrder) {
+		this.userOrder = userOrder;
+	}
 	public String getRealname() {
 		return realname;
 	}
@@ -218,13 +226,7 @@ public class User  implements Serializable{
 		this.avatar = avatar;
 	}
 
-	public Date getBirthday() {
-		return birthday;
-	}
 
-	public void setBirthday(Date birthday) {
-		this.birthday = birthday;
-	}
 
 	public Integer getSex() {
 		return sex;
@@ -258,68 +260,70 @@ public class User  implements Serializable{
 		this.status = status;
 	}
 
-	public Integer getDel_flag() {
-		return del_flag;
+
+
+	public String getWorkNo() {
+		return workNo;
 	}
 
-	public void setDel_flag(Integer del_flag) {
-		this.del_flag = del_flag;
+	public void setWorkNo(String workNo) {
+		this.workNo = workNo;
 	}
 
-	public String getWork_no() {
-		return work_no;
+	public String getCreateBy() {
+		return createBy;
 	}
 
-	public void setWork_no(String work_no) {
-		this.work_no = work_no;
+	public void setCreateBy(String createBy) {
+		this.createBy = createBy;
 	}
 
-	public String getCreate_by() {
-		return create_by;
+	public Date getCreateTime() {
+		return createTime;
 	}
 
-	public void setCreate_by(String create_by) {
-		this.create_by = create_by;
+	public void setCreateTime(Date createTime) {
+		this.createTime = createTime;
 	}
 
-	public Date getCreate_time() {
-		return create_time;
+	public String getUpdateBy() {
+		return updateBy;
 	}
 
-	public void setCreate_time(Date create_time) {
-		this.create_time = create_time;
+	public void setUpdateBy(String updateBy) {
+		this.updateBy = updateBy;
 	}
 
-	public String getUpdate_by() {
-		return update_by;
+	public Date getUpdateTime() {
+		return updateTime;
 	}
 
-	public void setUpdate_by(String update_by) {
-		this.update_by = update_by;
+	public void setUpdateTime(Date updateTime) {
+		this.updateTime = updateTime;
 	}
 
-	public Date getUpdate_time() {
-		return update_time;
+	public Integer getUserType() {
+		return userType;
 	}
 
-	public void setUpdate_time(Date update_time) {
-		this.update_time = update_time;
+	public void setUserType(Integer userType) {
+		this.userType = userType;
 	}
 
-	public Integer getUser_type() {
-		return User_type;
+	public String getExtData() {
+		return extData;
 	}
 
-	public void setUser_type(Integer User_type) {
-		this.User_type = User_type;
+	public void setExtData(String extData) {
+		this.extData = extData;
 	}
 
-	public String getExt_data() {
-		return ext_data;
+	public String getNickname() {
+		return nickname;
 	}
 
-	public void setExt_data(String ext_data) {
-		this.ext_data = ext_data;
+	public void setNickname(String nickname) {
+		this.nickname = nickname;
 	}
 
 }
