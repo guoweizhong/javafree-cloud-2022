@@ -21,8 +21,7 @@ public interface GroupRelService {
      */
     GroupRel getGroupRelById(String id);
     /**
-     * 注意更新和删除是需要加事务的， 并且要加上 @Modify的注解
-     * clearAutomatically清除底层持久化上下文
+     * 注意更新和删除是需要加事务的
      * @param id 组与成员关系ID
      */
     void deleteGroupRelById(String id);
@@ -88,7 +87,18 @@ public interface GroupRelService {
      */
     GroupRel saveGroupRel(GroupRel groupRel);
 
+    /**
+     * 获得组成员列表，条件之间是and关系
+     * @param groupRel
+     * @param pageParam
+     * @return
+     */
     PageResult<GroupRel> findGroupRelsByGroupRel(GroupRel groupRel, PageParam pageParam);
-
+    /**
+     * 获得组成员列表，条件之间是or关系
+     * @param groupRel
+     * @param pageParam
+     * @return
+     */
     PageResult<GroupRel> findGroupRelsByGroupRelAny(GroupRel groupRel, PageParam pageParam);
 }

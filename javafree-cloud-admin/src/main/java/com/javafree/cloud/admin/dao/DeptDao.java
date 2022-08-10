@@ -7,7 +7,6 @@ package com.javafree.cloud.admin.dao;
  */
 
 import com.javafree.cloud.admin.entity.Dept;
-import com.javafree.cloud.admin.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Modifying;

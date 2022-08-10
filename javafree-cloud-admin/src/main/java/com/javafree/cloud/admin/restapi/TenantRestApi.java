@@ -6,8 +6,8 @@ import com.javafree.cloud.common.api.PageResult;
 import com.javafree.cloud.common.api.RestApiParamBody;
 import com.javafree.cloud.common.api.RestApiResponse;
 import com.javafree.cloud.common.utils.JsonUtils;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -24,13 +24,13 @@ import java.util.Arrays;
  */
 @Slf4j
 @RestController
-@Api(value = "租户管理相关接口", tags = {"租户管理相关接口"})
+@Tag(name = "TenantRestApi", description ="租户管理接口")
 @RequestMapping("/tenant")
 public class TenantRestApi {
     @Autowired
     TenantService tenantService ;
 
-    @ApiOperation(value = "删除租户", notes = "删除租户")
+    @Operation(summary = "删除租户", description = "删除租户")
     @DeleteMapping("/deleteTenant")
     public RestApiResponse deleteTenant(@RequestParam(name = "id", required = true) String tenantid){
         tenantService.deleteTenant(tenantid);
@@ -38,7 +38,7 @@ public class TenantRestApi {
         return  RestApiResponse.OK("成功删除租户信息!");
     }
 
-    @ApiOperation(value = "批量删除租户信息", notes = "租户ids用逗号(,)分隔")
+    @Operation(summary = "批量删除租户信息", description = "租户ids用逗号(,)分隔")
     @DeleteMapping("/deleteTenantByIds")
     public RestApiResponse deleteTenantByIds(@RequestParam(name = "ids", required = true) String ids){
         tenantService.deleteTenantByIds(Arrays.asList(ids.split(",")));
@@ -47,7 +47,7 @@ public class TenantRestApi {
         return  RestApiResponse.OK("成功批量删除租户信息!");
     }
 
-    @ApiOperation(value = "获得租户信息")
+    @Operation(summary = "获得租户信息")
     @GetMapping("/getTenantById")
     public RestApiResponse<Tenant> getTenantById(@RequestParam("id") String id){
         Tenant orgTenant=tenantService.getTenantById(id);
@@ -59,7 +59,7 @@ public class TenantRestApi {
         return  RestApiResponse.OK(orgTenant);
     }
 
-    @ApiOperation(value = "查询租户信息列表,多条件关系为and", notes = "查询租户信息列表,多条件关系为and")
+    @Operation(summary = "查询租户信息列表,多条件关系为and", description = "查询租户信息列表,多条件关系为and")
     @PostMapping("/findTenantsByTenant")
     public RestApiResponse<PageResult<Tenant>> findTenantsByTenant(@RequestBody RestApiParamBody<Tenant> apiParam) {
 
@@ -72,7 +72,7 @@ public class TenantRestApi {
         return  RestApiResponse.OK(tenantPage);
     }
 
-    @ApiOperation(value = "新增或更新租户信息",notes = "新增或更新租户信息")
+    @Operation(summary = "新增或更新租户信息",description = "新增或更新租户信息")
     @PostMapping("/saveTenant")
     //通过@Valid 开启属性值格式校验
     public RestApiResponse<Tenant> saveTenant(@Valid @RequestBody Tenant tenant){

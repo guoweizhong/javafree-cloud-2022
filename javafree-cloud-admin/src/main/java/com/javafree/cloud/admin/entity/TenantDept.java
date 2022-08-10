@@ -1,103 +1,102 @@
 package com.javafree.cloud.admin.entity;
 
-import java.io.Serializable;
-import javax.persistence.Entity;
-import javax.persistence.Table;
-import javax.persistence.Column;
-import javax.persistence.Id;
-import javax.persistence.GeneratedValue;
-import javax.validation.constraints.NotBlank;
-
+import com.fasterxml.jackson.annotation.JsonFormat;
+import io.swagger.v3.oas.annotations.media.Schema;
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.GenericGenerator;
+
+import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Date;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 /**
  * @Description:    租户与机构的关联表
- * @Database:   表名为  sys_org_tenant_dept
+ * @Database:   table name is sys_org_tenant_dept
  */
 
 @Entity
+@DynamicInsert
+@DynamicUpdate
 @Table(name ="sys_org_tenant_dept")
-@ApiModel(value = " TenantDept对象 ", description = "租户与机构的关联表")
+@Schema(name = " TenantDept POJO ", description = "租户与机构的关联表")
 public class TenantDept  implements Serializable{
 
-	private static final Long serialVersionUID = 3980613529871731883L;
+	private static final Long serialVersionUID = -8644036473145655354L;
 
 	/**
 	 * 主键id
 	 */
-	@ApiModelProperty("主键id")
+	@Schema(name="id", description = "主键id")
   	@Id
-	@GenericGenerator(name = "uuid2", strategy = "org.hibernate.id.UUIDGenerator")
-	@GeneratedValue(generator = "uuid2")
-	@Column(name = "id",length = 32)
+	@GenericGenerator(name = "javafree_uuid", strategy = "com.javafree.cloud.common.id.JavaFreeUUIDGenerator")
+	@GeneratedValue(generator = "javafree_uuid")
+	@Column(name = "id",length = 22)
 	private String id;
 
 	/**
 	 * 租户ID
 	 */
-	@ApiModelProperty("租户ID")
+	@Schema(name="tenantId", description = "租户ID")
   	@Column(name = "tenant_id")
-	@NotBlank(message = "租户ID不能为空")
-	private String tenant_id;
+	private String tenantId;
 
 	/**
 	 * 机构ID
 	 */
-	@ApiModelProperty("机构ID")
+	@Schema(name="deptId", description = "机构ID")
   	@Column(name = "dept_id")
-	@NotBlank(message = "机构ID不能为空")
-	private String dept_id;
+	private String deptId;
 
 	/**
 	 * 关联名称，由(租户名+关联对象名,用||分隔)名组成
 	 */
-	@ApiModelProperty("关联名称，由(租户名+关联对象名,用||分隔)名组成")
+	@Schema(name="name", description = "关联名称，由(租户名+关联对象名,用||分隔)名组成")
   	@Column(name = "name")
 	private String name;
 
 	/**
 	 * 排序
 	 */
-	@ApiModelProperty("排序")
+	@Schema(name="relOrder", description = "排序")
   	@Column(name = "rel_order")
-	private Integer rel_order;
+	private Integer relOrder;
 
 	/**
 	 * 描述
 	 */
-	@ApiModelProperty("描述")
+	@Schema(name="description", description = "描述")
   	@Column(name = "description")
 	private String description;
 
 	/**
 	 * 创建人
 	 */
-	@ApiModelProperty("创建人")
+	@Schema(name="createBy", description = "创建人")
   	@Column(name = "create_by")
-	private String create_by;
+	private String createBy;
 
 	/**
 	 * 创建时间
 	 */
-	@ApiModelProperty("创建时间")
+	@Schema(name="createTime", description = "创建时间")
   	@Column(name = "create_time")
-	private Date create_time;
+  	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+	private Date createTime;
 
 	/**
 	 * 更新人
 	 */
-	@ApiModelProperty("更新人")
+	@Schema(name="updateBy", description = "更新人")
   	@Column(name = "update_by")
-	private String update_by;
+	private String updateBy;
 
 	/**
 	 * 更新时间
 	 */
-	@ApiModelProperty("更新时间")
+	@Schema(name="updateTime", description = "更新时间")
   	@Column(name = "update_time")
-	private Date update_time;
+  	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+	private Date updateTime;
 
 	public String getId() {
 		return id;
@@ -107,20 +106,20 @@ public class TenantDept  implements Serializable{
 		this.id = id;
 	}
 
-	public String getTenant_id() {
-		return tenant_id;
+	public String getTenantId() {
+		return tenantId;
 	}
 
-	public void setTenant_id(String tenant_id) {
-		this.tenant_id = tenant_id;
+	public void setTenantId(String tenantId) {
+		this.tenantId = tenantId;
 	}
 
-	public String getDept_id() {
-		return dept_id;
+	public String getDeptId() {
+		return deptId;
 	}
 
-	public void setDept_id(String dept_id) {
-		this.dept_id = dept_id;
+	public void setDeptId(String deptId) {
+		this.deptId = deptId;
 	}
 
 	public String getName() {
@@ -131,12 +130,12 @@ public class TenantDept  implements Serializable{
 		this.name = name;
 	}
 
-	public Integer getRel_order() {
-		return rel_order;
+	public Integer getRelOrder() {
+		return relOrder;
 	}
 
-	public void setRel_order(Integer rel_order) {
-		this.rel_order = rel_order;
+	public void setRelOrder(Integer relOrder) {
+		this.relOrder = relOrder;
 	}
 
 	public String getDescription() {
@@ -147,36 +146,36 @@ public class TenantDept  implements Serializable{
 		this.description = description;
 	}
 
-	public String getCreate_by() {
-		return create_by;
+	public String getCreateBy() {
+		return createBy;
 	}
 
-	public void setCreate_by(String create_by) {
-		this.create_by = create_by;
+	public void setCreateBy(String createBy) {
+		this.createBy = createBy;
 	}
 
-	public Date getCreate_time() {
-		return create_time;
+	public Date getCreateTime() {
+		return createTime;
 	}
 
-	public void setCreate_time(Date create_time) {
-		this.create_time = create_time;
+	public void setCreateTime(Date createTime) {
+		this.createTime = createTime;
 	}
 
-	public String getUpdate_by() {
-		return update_by;
+	public String getUpdateBy() {
+		return updateBy;
 	}
 
-	public void setUpdate_by(String update_by) {
-		this.update_by = update_by;
+	public void setUpdateBy(String updateBy) {
+		this.updateBy = updateBy;
 	}
 
-	public Date getUpdate_time() {
-		return update_time;
+	public Date getUpdateTime() {
+		return updateTime;
 	}
 
-	public void setUpdate_time(Date update_time) {
-		this.update_time = update_time;
+	public void setUpdateTime(Date updateTime) {
+		this.updateTime = updateTime;
 	}
 
 }

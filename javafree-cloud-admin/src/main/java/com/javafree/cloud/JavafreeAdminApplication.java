@@ -9,20 +9,20 @@ package com.javafree.cloud;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.core.env.Environment;
-import springfox.documentation.oas.annotations.EnableOpenApi;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
 @Slf4j
-@EnableOpenApi
 //加包的扫描范围，默认有些bean无法加载,解决GlobalExceptionHandler不生效问题
 //@SpringBootApplication(scanBasePackages = {"com.javafree.cloud", "com.javafree.cloud.common"})
 @SpringBootApplication
 @EnableDiscoveryClient
+@EnableCaching
 public class JavafreeAdminApplication {
 
     public static void main(String[] args) throws UnknownHostException {

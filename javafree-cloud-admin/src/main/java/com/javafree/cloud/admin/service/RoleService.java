@@ -32,4 +32,6 @@ public interface RoleService {
     PageResult<Role> findRolesByRole(Role role, PageParam pageParam);
 
     PageResult<Role> findRolesByRoleAny(Role role, PageParam pageParam);
+
+    List<Role> getRolesListByRole(Role role);
 }

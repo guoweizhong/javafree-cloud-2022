@@ -1,6 +1,6 @@
 package com.javafree.cloud.admin.controller;
 
-import io.swagger.annotations.Api;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -13,7 +13,8 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @Slf4j
 @RestController
-@Api(tags="机构/部门管理API")
+@Tag(name = "DeptController", description = "机构/部门管理API")
+
 @RequestMapping("/dept")
 public class DeptController {
 

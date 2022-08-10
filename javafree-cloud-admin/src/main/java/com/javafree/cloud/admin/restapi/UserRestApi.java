@@ -8,8 +8,8 @@ import com.javafree.cloud.common.api.RestApiParamBody;
 import com.javafree.cloud.common.api.RestApiResponse;
 import com.javafree.cloud.common.utils.JavaFreeBeanUtils;
 import com.javafree.cloud.common.utils.JsonUtils;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * @version V1.0
@@ -29,13 +30,13 @@ import java.util.Arrays;
  */
 @Slf4j
 @RestController
-@Api(value = "用户管理相关接口", tags = {"用户管理相关接口"})
+@Tag(name = "UserRestApi", description ="用户管理接口")
 @RequestMapping("/user")
 public class UserRestApi {
   @Autowired
   UserService userService;
 
-  @ApiOperation(value = "删除用户", notes = "删除用户")
+  @Operation(summary = "删除用户", description = "通过userid删除用户")
   @DeleteMapping("/deleteUser")
   public RestApiResponse deleteUser(@RequestParam(name = "userid", required = true) String userid){
     userService.deleteUser(userid);
@@ -43,7 +44,7 @@ public class UserRestApi {
     return  RestApiResponse.OK("成功删除用户信息!");
   }
 
-  @ApiOperation(value = "批量删除用户信息", notes = "用户ids用逗号(,)分隔")
+  @Operation(summary = "批量删除用户信息", description = "用户ids用逗号(,)分隔")
   @DeleteMapping("/deleteUserByIds")
   public RestApiResponse deleteUserByIds(@RequestParam(name = "ids", required = true) String ids){
     userService.deleteUserByIds(Arrays.asList(ids.split(",")));
@@ -54,7 +55,7 @@ public class UserRestApi {
 
 
 
-  @ApiOperation(value = "获得用户信息")
+  @Operation(summary = "获得用户信息")
   @GetMapping("/getUserById")
   public RestApiResponse<User> getUserById(@RequestParam("userid") String userid){
     User orgUser=userService.getUserById(userid);
@@ -66,7 +67,7 @@ public class UserRestApi {
     return  RestApiResponse.OK(orgUser);
   }
 
-  @ApiOperation(value = "通过用户名获得用户信息")
+  @Operation(summary = "通过用户名获得用户信息")
   @GetMapping("/getUserByName")
   public RestApiResponse<User> getUserByName(@RequestParam("username") String username){
     User user=userService.getUserByName(username);
@@ -78,7 +79,7 @@ public class UserRestApi {
     return  RestApiResponse.OK(user);
   }
 
-  @ApiOperation(value = "通过真实姓名查询用户信息列表(模糊查询)", notes = "通过真实姓名查询用户信息列表(模糊查询)")
+  @Operation(summary = "通过真实姓名查询用户信息列表(模糊查询)", description = "通过真实姓名查询用户信息列表(模糊查询)")
   @PostMapping("/findUsersByRealname")
   public RestApiResponse<PageResult<User>> findUsersByRealname(@RequestBody(required = false) RestApiParamBody<String> apiParam) {
     //分类数据
@@ -90,7 +91,7 @@ public class UserRestApi {
     log.info("找到用户信息列表，传入参数为:{}", JsonUtils.getJsonStringFromObject(apiParam.getDataParam()));
     return  RestApiResponse.OK(userPage);
   }
-  @ApiOperation(value = "查询用户信息列表,多条件关系为and", notes = "查询用户信息列表,多条件关系为and")
+  @Operation(summary = "查询用户信息列表,多条件关系为and", description = "查询用户信息列表,多条件关系为and")
   @PostMapping("/findUsersByUser")
   public RestApiResponse<PageResult<User>> findUsersByUser(@RequestBody RestApiParamBody<User> apiParam) {
 
@@ -103,7 +104,7 @@ public class UserRestApi {
     return  RestApiResponse.OK(userPage);
   }
 
-  @ApiOperation(value = "查询用户信息列表,多条件关系为OR",notes = "查询用户信息列表,多条件关系为OR")
+  @Operation(summary = "查询用户信息列表,多条件关系为OR",description = "查询用户信息列表,多条件关系为OR")
   @PostMapping("/findUsersByUserAny")
   public RestApiResponse<PageResult<User>> findUsersByUserAny(@RequestBody RestApiParamBody<User> apiParam) {
 
@@ -111,9 +112,16 @@ public class UserRestApi {
     User user=apiParam.getDataParam();
     if (StringUtils.hasText(user.getUsername())){
       //额外增加三个字段，电话，姓名、工号
-      user.setPhone(user.getUsername());
-      user.setRealname(user.getUsername());
-      user.setWorkNo(user.getUsername());
+      if (!StringUtils.hasText(user.getPhone())) {
+        user.setPhone(user.getUsername());
+      }
+      if (!StringUtils.hasText(user.getRealname())) {
+        user.setRealname(user.getUsername());
+      }
+      if (!StringUtils.hasText(user.getWorkNo())) {
+
+        user.setWorkNo(user.getUsername());
+      }
       apiParam.setDataParam(user);
     }
 
@@ -123,6 +131,7 @@ public class UserRestApi {
       return  RestApiResponse.WARNING("未找到用户信息!", HttpStatus.NO_CONTENT);
     }
     log.info("找到用户信息列表，传入参数为:{}", JsonUtils.getJsonStringFromObject(apiParam));
+
     return  RestApiResponse.OK(userPage);
   }
 
@@ -135,7 +144,7 @@ public class UserRestApi {
    * @param user
    * @return
    */
-  @ApiOperation(value = "新增或更新用户信息，不包括用户密码字段",notes = "新增或更新用户信息，不包括用户密码字段")
+  @Operation(summary = "新增或更新用户信息，不包括用户密码字段",description = "新增或更新用户信息，不包括用户密码字段")
   @PostMapping("/savaUser")
   //通过@Valid 开启属性值格式校验
   public RestApiResponse<User> savaUser(@Valid @RequestBody User user){
@@ -151,7 +160,7 @@ public class UserRestApi {
    * @param userVo
    * @return
    */
-  @ApiOperation(value = "新增或更新用户信息,包括用户密码字段",notes = "新增或更新用户信息,包括用户密码字段")
+  @Operation(summary = "新增或更新用户信息,包括用户密码字段",description = "新增或更新用户信息,包括用户密码字段")
   @PostMapping("/savaUserVO")
   //通过@Valid 开启属性值格式校验
   public RestApiResponse<UserVo> savaUserVO(@Valid @RequestBody UserVo userVo){
@@ -167,6 +176,18 @@ public class UserRestApi {
     BeanUtils.copyProperties(orgUser,userVo, JavaFreeBeanUtils.getNullPropertyNames(userVo));
 
     return  RestApiResponse.OK(userVo);
+  }
+
+  @Operation(summary = "获得用户列表", description = "获得用户列表")
+  @PostMapping("/getUsersList")
+  public RestApiResponse<List<User>> getUsersList(User user) {
+    List<User>  userList=userService.getUsersListByUser(user);
+    if (null==userList || userList.size()<1) {
+      log.info("未找到用户信息,传入参数为:{}",JsonUtils.getJsonStringFromObject(user));
+      return  RestApiResponse.WARNING("未找到用户信息!", HttpStatus.NO_CONTENT);
+    }
+    log.info("找到用户信息列表，传入参数为:{}", JsonUtils.getJsonStringFromObject(user));
+    return  RestApiResponse.OK(userList);
   }
 
 

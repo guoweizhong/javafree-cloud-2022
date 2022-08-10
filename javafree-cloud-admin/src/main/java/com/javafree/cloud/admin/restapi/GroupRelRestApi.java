@@ -6,8 +6,8 @@ import com.javafree.cloud.common.api.PageResult;
 import com.javafree.cloud.common.api.RestApiParamBody;
 import com.javafree.cloud.common.api.RestApiResponse;
 import com.javafree.cloud.common.utils.JsonUtils;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -25,13 +25,13 @@ import java.util.Arrays;
  */
 @Slf4j
 @RestController
-@Api(value = "用户组管理相关接口", tags = {"用户组管理相关接口"})
+@Tag(name = "GroupRelRestApi", description ="用户组成员管理接口")
 @RequestMapping("/grouprel")
 public class GroupRelRestApi {
     @Autowired
     GroupRelService groupRelService;
 
-    @ApiOperation(value = "删除组成员关系", notes = "删除组成员关系")
+    @Operation(summary = "删除组成员关系", description = "删除组成员关系")
     @DeleteMapping("/deleteGroupRel")
     public RestApiResponse deleteGroupRel(@RequestParam(name = "id", required = true) String groupRelid) {
         groupRelService.deleteGroupRelById(groupRelid);
@@ -39,7 +39,7 @@ public class GroupRelRestApi {
         return RestApiResponse.OK("成功删除组成员关系信息!");
     }
 
-    @ApiOperation(value = "批量删除组成员关系信息", notes = "组成员关系ids用逗号(,)分隔")
+    @Operation(summary = "批量删除组成员关系信息", description = "组成员关系ids用逗号(,)分隔")
     @DeleteMapping("/deleteGroupRelByIds")
     public RestApiResponse deleteGroupRelByIds(@RequestParam(name = "ids", required = true) String ids) {
         groupRelService.deleteGroupRelByIds(Arrays.asList(ids.split(",")));
@@ -47,7 +47,7 @@ public class GroupRelRestApi {
         return RestApiResponse.OK("成功批量删除组成员关系信息!");
     }
 
-    @ApiOperation(value = "获得组成员关系信息")
+    @Operation(summary = "获得组成员关系信息")
     @GetMapping("/getGroupRelById")
     public RestApiResponse<GroupRel> getGroupRelById(@RequestParam("id") String id) {
         GroupRel orgGroupRel = groupRelService.getGroupRelById(id);
@@ -59,7 +59,7 @@ public class GroupRelRestApi {
         return RestApiResponse.OK(orgGroupRel);
     }
 
-    @ApiOperation(value = "查询组成员关系信息列表,多条件关系为and", notes = "查询组成员关系信息列表,多条件关系为and")
+    @Operation(summary = "查询组成员关系信息列表,多条件关系为and", description = "查询组成员关系信息列表,多条件关系为and")
     @PostMapping("/findGroupRelsByGroupRel")
     public RestApiResponse<PageResult<GroupRel>> findGroupRelsByGroupRel(@RequestBody RestApiParamBody<GroupRel> apiParam) {
 
@@ -72,7 +72,7 @@ public class GroupRelRestApi {
         return RestApiResponse.OK(groupRelPage);
     }
 
-    @ApiOperation(value = "查询组成员关系信息列表,多条件关系为OR",notes = "查询组成员关系信息列表,多条件关系为OR")
+    @Operation(summary = "查询组成员关系信息列表,多条件关系为OR",description = "查询组成员关系信息列表,多条件关系为OR")
     @PostMapping("/findGroupRelsByGroupRelAny")
     public RestApiResponse<PageResult<GroupRel>> findGroupRelsByGroupRelAny(@RequestBody RestApiParamBody<GroupRel> apiParam) {
 
@@ -92,7 +92,7 @@ public class GroupRelRestApi {
         return  RestApiResponse.OK(groupRelPage);
     }
 
-    @ApiOperation(value = "新增或更新组成员关系信息", notes = "新增或更新组成员关系信息")
+    @Operation(summary = "新增或更新组成员关系信息", description = "新增或更新组成员关系信息")
     @PostMapping("/saveGroupRel")
     public RestApiResponse<GroupRel> saveGroupRel(@Valid @RequestBody GroupRel groupRel) {
         GroupRel orgGroupRel = groupRelService.saveGroupRel(groupRel);

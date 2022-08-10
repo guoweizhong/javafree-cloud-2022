@@ -1,8 +1,7 @@
 package com.javafree.cloud.admin.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.GenericGenerator;
@@ -19,7 +18,7 @@ import java.util.Date;
 @DynamicInsert
 @DynamicUpdate
 @Table(name ="sys_org_group_rel")
-@ApiModel(value = " GroupRel POJO ", description = "群组与成员关联表")
+@Schema(name = " GroupRel POJO ", description = "群组与成员关联表")
 public class GroupRel  implements Serializable{
 
 	private static final Long serialVersionUID = 8229502113165775777L;
@@ -27,7 +26,7 @@ public class GroupRel  implements Serializable{
 	/**
 	 * 主键id
 	 */
-	@ApiModelProperty("主键id")
+	@Schema(name = "id", description = "主键id")
 	@Id
 	@GenericGenerator(name = "javafree_uuid", strategy = "com.javafree.cloud.common.id.JavaFreeUUIDGenerator")
 	@GeneratedValue(generator = "javafree_uuid")
@@ -37,56 +36,56 @@ public class GroupRel  implements Serializable{
 	/**
 	 * 群组ID
 	 */
-	@ApiModelProperty("群组ID")
+	@Schema(name = "groupId", description = "群组ID")
 	@Column(name = "group_id")
 	private String groupId;
 
 	/**
 	 * 群组关联对象ID
 	 */
-	@ApiModelProperty("群组关联对象ID")
+	@Schema(name = "objId", description = "群组关联对象ID")
 	@Column(name = "obj_id")
 	private String objId;
 
 	/**
 	 * 群组关联对象类型，1.机构部门(DEPT),2.用户(USER),3.角色(ROLE)
 	 */
-	@ApiModelProperty("群组关联对象类型，1.机构部门(DEPT),2.用户(USER),3.角色(ROLE)")
+	@Schema(name = "objType", description = "群组关联对象类型，1.机构部门(DEPT),2.用户(USER),3.角色(ROLE)")
 	@Column(name = "obj_type")
 	private String objType;
 
 	/**
 	 * 组名称
 	 */
-	@ApiModelProperty("组名称")
+	@Schema(name = "groupName", description = "组名称")
 	@Column(name = "group_name")
 	private String groupName;
 
 	/**
 	 * 排序
 	 */
-	@ApiModelProperty("排序")
+	@Schema(name = "relOrder", description = "排序")
 	@Column(name = "rel_order")
 	private Integer relOrder;
 
 	/**
 	 * 成员对象名称
 	 */
-	@ApiModelProperty("成员对象名称")
+	@Schema(name = "objName", description = "成员对象名称")
 	@Column(name = "obj_name")
 	private String objName;
 
 	/**
 	 * 创建人
 	 */
-	@ApiModelProperty("创建人")
+	@Schema(name = "createBy", description = "创建人")
 	@Column(name = "create_by")
 	private String createBy;
 
 	/**
 	 * 创建时间
 	 */
-	@ApiModelProperty("创建时间")
+	@Schema(name = "createTime", description = "创建时间")
 	@Column(name = "create_time")
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private Date createTime;
@@ -94,14 +93,14 @@ public class GroupRel  implements Serializable{
 	/**
 	 * 更新人
 	 */
-	@ApiModelProperty("更新人")
+	@Schema(name = "updateBy", description = "更新人")
 	@Column(name = "update_by")
 	private String updateBy;
 
 	/**
 	 * 更新时间
 	 */
-	@ApiModelProperty("更新时间")
+	@Schema(name = "updateTime", description = "更新时间")
 	@Column(name = "update_time")
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private Date updateTime;

@@ -2,8 +2,7 @@ package com.javafree.cloud.admin.vo;
 
 
 import com.javafree.cloud.admin.entity.User;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
@@ -18,10 +17,12 @@ import org.hibernate.annotations.DynamicUpdate;
  */
 
 
-@ApiModel(value = " UserVo对象 ", description = "UserVo对象,用于页面传参")
+@Schema(name = " UserVo对象 ", description = "UserVo对象,用于页面传参")
 @DynamicUpdate //设置为true,表示Update对象的时候,生成动态的Update语句,如果这个字段的值是null就不会加入到Update语句当中.默认false
 @DynamicInsert  //设置为true,表示insert对象的时候,生成动态的insert语句,如果这个字段的值是null就不会加入到insert语句当中.默认false
 public class UserVo extends User {
+    @Schema(name = "password", description = "密码")
+    private String password;
 
     @Override
     public String getPassword() {
@@ -33,6 +34,5 @@ public class UserVo extends User {
         this.password = password;
     }
 
-    @ApiModelProperty("密码")
-    private String password;
+
 }

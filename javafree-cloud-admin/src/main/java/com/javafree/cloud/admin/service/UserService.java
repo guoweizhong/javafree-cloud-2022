@@ -34,4 +34,6 @@ public interface UserService {
     PageResult<User> findUsersByUser(User user, PageParam pageParam);
 
     PageResult<User> findUsersByUserAny(User user, PageParam pageParam);
+
+    List<User> getUsersListByUser(User user);
 }

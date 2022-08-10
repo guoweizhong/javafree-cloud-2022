@@ -1,7 +1,6 @@
 package com.javafree.cloud.common.api;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 import java.io.Serializable;
 import java.util.List;
@@ -28,19 +27,19 @@ import java.util.List;
  * @Author gwz  gwz126@126.com
  * @Date 2021/11/30 9:10
  */
-@ApiModel(value = "分页查询参数对象", description = "用于前端传入分页查询参数")
+@Schema(name = "分页查询参数对象", description = "用于前端传入分页查询参数")
 public class PageParam implements Serializable {
 
     private static final long serialVersionUID = 5231391460048825825L;
 
     //页码
-    @ApiModelProperty("当前页码，默认为1")
+    @Schema(name = "currentPage", description = "当前页码，默认为1")
     int currentPage;
     //每页条目数
-    @ApiModelProperty("每页条目数，默认20条")
+    @Schema(name = "pageSize", description = "每页条目数，默认20条")
     int pageSize;
 
-    @ApiModelProperty("排序条件")
+    @Schema(name = "sorts", description = "排序条件")
     List<SortParam> sorts;
 
     public int getCurrentPage() {

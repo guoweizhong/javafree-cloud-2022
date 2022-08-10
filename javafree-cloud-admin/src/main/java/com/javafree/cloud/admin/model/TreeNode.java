@@ -24,12 +24,16 @@ public class TreeNode  implements Comparable<TreeNode> ,Serializable {
      */
     private String slotTitle;
 
-
+    /**
+     * 用于显示节点统计数据
+     */
+    private Integer count;
 
     /**
      * 排序号
      */
     private Integer order;
+
 
     /**
      * 当树为 checkable 时，设置独立节点是否展示
@@ -78,6 +82,14 @@ public class TreeNode  implements Comparable<TreeNode> ,Serializable {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public Integer getCount() {
+        return count;
+    }
+
+    public void setCount(Integer count) {
+        this.count = count;
     }
 
     public String getSlotTitle() {

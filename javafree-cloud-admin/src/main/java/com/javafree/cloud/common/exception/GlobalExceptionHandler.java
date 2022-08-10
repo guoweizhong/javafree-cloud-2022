@@ -3,13 +3,11 @@ package com.javafree.cloud.common.exception;
 import com.javafree.cloud.common.api.RestApiResponse;
 import com.javafree.cloud.common.utils.JsonUtils;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.ResponseStatus;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -53,7 +51,6 @@ public class GlobalExceptionHandler {
             java.sql.SQLException.class,
             org.springframework.dao.InvalidDataAccessResourceUsageException.class})
     public RestApiResponse handleSQLSyntaxErrorException(SQLSyntaxErrorException e) {
-
         log.error("数据库访问SQL异常：{}", getStackTrace(e));
         return RestApiResponse.ERROR(new JavafreeException(JavafreeExceptionType.SERVER_ERROR, "数据库访问SQL异常")).setData(e.getMessage());
     }

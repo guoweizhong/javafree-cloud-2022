@@ -7,6 +7,7 @@
     <groupId>com.javafree.cloud</groupId>
     <artifactId>javafree-cloud-parent</artifactId>
     <version>1.0-SNAPSHOT</version>
+
     <modules>
         <module>javafree-cloud-base</module>
         <module>javafree-cloud-admin</module>
@@ -18,13 +19,6 @@
     </modules>
     <packaging>pom</packaging>
 
-    <parent>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.5.10</version>
-        <relativePath/>
-    </parent>
-
     <!-- 统一管理jar包版本-->
     <properties>
         <java.version>11</java.version>
@@ -32,14 +26,17 @@
         <maven.compiler.target>11</maven.compiler.target>
 
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <spring-boot.version>2.5.10</spring-boot.version>
-        <spring-cloud.version>2020.0.5</spring-cloud.version>
-        <spring-cloud-alibaba.version>2.2.7.RELEASE</spring-cloud-alibaba.version>
-        <swagger.starter.version>3.0.0</swagger.starter.version>
+        <spring-boot.version>2.7.2</spring-boot.version>
+        <spring-cloud.version>2021.0.3</spring-cloud.version>
+        <spring-cloud-alibaba.version>2021.0.1.0</spring-cloud-alibaba.version>
+        <springdoc-openapi-ui.version>1.6.9</springdoc-openapi-ui.version>
+        <jackson-dataformat-msgpack.version>0.9.3</jackson-dataformat-msgpack.version>
+        <guava.version>31.1-jre</guava.version>
         <druid.version>1.2.8</druid.version>
         <lombok.version>1.18.20</lombok.version>
         <oauth2-authorization-server.version>0.2.1</oauth2-authorization-server.version>
         <nacos.version>2.0.3</nacos.version>
+        <nimbus-jose-jwt.version>9.23</nimbus-jose-jwt.version>
     </properties>
     <repositories>
         <repository>
@@ -93,9 +90,12 @@
     <build>
         <plugins>
             <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-                <version>2.6.4</version>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.12.4</version>
+                <configuration>
+                    <skipTests>true</skipTests>
+                </configuration>
             </plugin>
         </plugins>
     </build>

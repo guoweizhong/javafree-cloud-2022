@@ -8,8 +8,8 @@ import com.javafree.cloud.common.api.RestApiParamBody;
 import com.javafree.cloud.common.api.RestApiResponse;
 import com.javafree.cloud.common.utils.JsonUtils;
 import com.javafree.cloud.common.utils.TreeBuiltUtils;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -32,13 +32,13 @@ import java.util.stream.Collectors;
  */
 @Slf4j
 @RestController
-@Api(value = "机构/部门管理相关接口", tags = {"机构/部门管理相关接口"})
+@Tag(name = "DeptRestApi", description = "机构(部门)管理接口")
 @RequestMapping("/dept")
 public class DeptRestApi {
     @Autowired
     DeptService deptService;
 
-    @ApiOperation(value = "删除机构/部门", notes = "删除机构/部门")
+    @Operation(summary = "删除机构/部门",description = "通过id删除机构或部门")
     @DeleteMapping("/deleteDept")
     public RestApiResponse deleteDept(@RequestParam(name = "id", required = true) String deptid) {
         deptService.deleteDept(deptid);
@@ -46,7 +46,7 @@ public class DeptRestApi {
         return RestApiResponse.OK("成功删除机构/部门信息!");
     }
 
-    @ApiOperation(value = "批量删除机构/部门信息", notes = "机构/部门ids用逗号(,)分隔")
+    @Operation(summary = "批量删除机构/部门信息",description = "机构/部门ids用逗号(,)分隔")
     @DeleteMapping("/deleteDeptByIds")
     public RestApiResponse deleteDeptByIds(@RequestParam(name = "ids", required = true) String ids) {
         deptService.deleteDeptByIds(Arrays.asList(ids.split(",")));
@@ -54,7 +54,7 @@ public class DeptRestApi {
         return RestApiResponse.OK("成功批量删除机构/部门信息!");
     }
 
-    @ApiOperation(value = "获得机构/部门信息")
+    @Operation(summary = "获得机构/部门信息",description = "通过id获得机构或部门")
     @GetMapping("/getDeptById")
     public RestApiResponse<Dept> getDeptById(@RequestParam("id") String id) {
         Dept orgDept = deptService.getDeptById(id);
@@ -67,7 +67,7 @@ public class DeptRestApi {
     }
 
 
-    @ApiOperation(value = "获取所有部门（树形）")
+    @Operation(summary = "获取所有部门（树结构）",description = "机构或部门树结构数据")
     @GetMapping({"/getAllTree"})
     public RestApiResponse<List<TreeNode>> getAllDeptTree() {
         List<Dept> deptList=deptService.getAllDepts();
@@ -106,7 +106,7 @@ public class DeptRestApi {
         List<TreeNode> list=listTreeNode.stream().sorted(Comparator.comparing(l -> l.getOrder(), Comparator.nullsLast(Integer::compareTo))).collect(Collectors.toList());
       return  list;
     }
-    @ApiOperation(value = "查询机构信息列表,多条件关系为and", notes = "查询机构信息列表,多条件关系为and")
+    @Operation(summary  = "查询机构信息列表,多条件关系为and", description = "查询机构信息列表,多条件关系为and")
     @PostMapping("/findDeptsByDept")
     public RestApiResponse<PageResult<Dept>> findDeptsByDept(@RequestBody RestApiParamBody<Dept> apiParam) {
         PageResult<Dept>  deptPage=deptService.findDeptsByDeptBySpecification(apiParam.getDataParam(),apiParam.getPageParam());
@@ -118,7 +118,7 @@ public class DeptRestApi {
         return  RestApiResponse.OK(deptPage);
     }
 
-    @ApiOperation(value = "新增或更新机构/部门信息",notes = "新增或更新机构/部门信息")
+    @Operation(summary  = "新增或更新机构/部门信息",description = "新增或更新机构/部门信息")
     @PostMapping("/saveDept")    //通过@Valid 开启属性值格式校验
     public RestApiResponse<Dept> saveDept(@Valid @RequestBody Dept dept){
         Dept depttemp=deptService.saveDept(dept);

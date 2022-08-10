@@ -1,11 +1,10 @@
 package com.javafree.cloud.common.api;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import com.javafree.cloud.common.exception.JavafreeException;
+import com.javafree.cloud.common.exception.JavafreeExceptionType;
+import io.swagger.v3.oas.annotations.media.Schema;
 import org.springframework.http.HttpStatus;
-
-import com.javafree.cloud.common.exception.*;
 
 import java.io.Serializable;
 import java.net.InetAddress;
@@ -19,37 +18,37 @@ import java.util.Date;
  * @Date 2021/11/23 18:05
  */
 
-@ApiModel(value = "接口返回统一JSON对象", description = "接口返回统一JSON对象，规范返回JSON数据格式")
+@Schema(name = "RestApiResponse", description = "接口返回统一JSON对象，规范返回JSON数据格式")
 public class RestApiResponse<T> implements Serializable {
     private static final long serialVersionUID = -7172507203452011166L;
     /**
      * 响应码
      */
-    @ApiModelProperty("HTTP响应码")
+    @Schema(name = "status", description = "HTTP响应码")
     private int status;
 
     /**
      * 是否成功
      */
-    @ApiModelProperty("是否成功")
+    @Schema(name = "success", description = "是否成功")
     private boolean success;
 
     /**
      * 响应消息
      */
-    @ApiModelProperty("响应提示消息")
+    @Schema(name = "message", description = "响应提示消息")
     private String message;
 
     /**
      * 响应数据
      */
-    @ApiModelProperty("响应业务数据")
+    @Schema(name = "data", description = "响应业务数据")
     private T data;
 
     /**
      * 返回结果的服务器IP
      */
-    @ApiModelProperty("返回结果的服务器IP")
+    @Schema(name = "host", description = "返回结果的服务器IP")
     private String host;
 
     public String getHost() {
@@ -63,7 +62,7 @@ public class RestApiResponse<T> implements Serializable {
     /**
      * 响应时间
      */
-    @ApiModelProperty("响应时间戳")
+    @Schema(name = "timestamp", description = "响应时间戳")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date timestamp;
 

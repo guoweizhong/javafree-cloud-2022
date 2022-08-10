@@ -12,8 +12,14 @@
 
     <artifactId>javafree-cloud-admin</artifactId>
     <description>系统管理基础功能模块</description>
-
+    <properties>
+        <javafree.mutilevelcache.version>1.0.6</javafree.mutilevelcache.version>
+    </properties>
     <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
 
         <!-- 持久层采用spring boot data jpa-->
         <dependency>
@@ -21,24 +27,12 @@
             <artifactId>spring-boot-starter-data-jpa</artifactId>
         </dependency>
 
-        <!-- 持久层采用spring boot data rest 通用API
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-rest</artifactId>
-        </dependency>-->
         <!-- json 对象序列化依赖包  -->
         <dependency>
             <groupId>org.msgpack</groupId>
             <artifactId>jackson-dataformat-msgpack</artifactId>
-            <version>0.9.0</version>
+            <version>${jackson-dataformat-msgpack.version}</version>
         </dependency>
-        <!-- 持久层采用spring boot data rest 通用API
-        <dependency>
-            <groupId>org.springframework.data</groupId>
-            <artifactId>spring-data-rest-hal-explorer</artifactId>
-            <version>3.5.4</version>
-        </dependency>
-        -->
         <!-- 引入校验功能，对象属性值数据格式校验  -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -50,17 +44,31 @@
             <artifactId>spring-boot-starter-data-redis</artifactId>
         </dependency>
 
-        <!-- Swagger3.0 接口  -->
+        <!-- Swagger3.0 接口 从 springfox换为springdoc-->
         <dependency>
-            <groupId>io.springfox</groupId>
-            <artifactId>springfox-boot-starter</artifactId>
-            <version>${swagger.starter.version}</version>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-ui</artifactId>
+            <version>${springdoc-openapi-ui.version}</version>
         </dependency>
-        <!-- 引入spring security
+        <dependency>
+            <groupId>com.javafree.cloud.cache</groupId>
+            <artifactId>javafree-cloud-cache-spring-boot-starter</artifactId>
+            <version>${javafree.mutilevelcache.version}</version>
+        </dependency>
+
+
+        <!-- 引入spring security-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-security</artifactId>
-        </dependency>-->
+        </dependency>
+        <dependency>
+            <groupId>com.nimbusds</groupId>
+            <artifactId>nimbus-jose-jwt</artifactId>
+            <version>${nimbus-jose-jwt.version}</version>
+        </dependency>
+
+
         <!-- 添加 Undertow依赖 代替tomcat-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -70,7 +78,7 @@
         <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
-            <version>31.0.1-jre</version>
+            <version>${guava.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -89,8 +97,6 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-websocket</artifactId>
         </dependency>
-
-
 
         <!-- 阿里druid JDBC连接池 -->
         <dependency>
@@ -126,20 +132,7 @@
             <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
         </dependency>
 
-        <!-- 引入内嵌 mq
-        <dependency>
-            <groupId>org.javalite</groupId>
-            <artifactId>javalite-async</artifactId>
-            <version>3.0-j11</version>
-        </dependency>-->
-
-       <!--SpringBoot使用 ValidationApi 进行参数校验 spring boot2后可删除
-        <dependency>
-            <groupId>jakarta.validation</groupId>
-            <artifactId>jakarta.validation-api</artifactId>
-        </dependency>-->
-
-        <!-- spring boot 测试依赖包  -->
+        <!-- spring boot test 测试依赖包  -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
@@ -150,16 +143,29 @@
             <artifactId>junit</artifactId>
             <scope>test</scope>
         </dependency>
-        <dependency>
-            <groupId>org.springframework.security</groupId>
-            <artifactId>spring-security-core</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.security</groupId>
-            <artifactId>spring-security-core</artifactId>
-        </dependency>
-
     </dependencies>
+    <!--spring boot打包需要指定一个唯一的入口 -->
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>2.7.2</version>
+                <configuration>
+                    <!-- 指定该Main Class为全局的唯一入口 -->
+                    <mainClass>com.javafree.cloud.JavafreeAdminApplication</mainClass>
+                    <layout>ZIP</layout>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal><!--可以把依赖的包都打包到生成的Jar包中 -->
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
 
 <!--    <repositories>-->
 <!--        <repository>-->

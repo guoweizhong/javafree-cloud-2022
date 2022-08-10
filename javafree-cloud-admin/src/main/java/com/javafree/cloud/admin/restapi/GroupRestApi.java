@@ -6,8 +6,8 @@ import com.javafree.cloud.common.api.PageResult;
 import com.javafree.cloud.common.api.RestApiParamBody;
 import com.javafree.cloud.common.api.RestApiResponse;
 import com.javafree.cloud.common.utils.JsonUtils;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -25,13 +25,13 @@ import java.util.Arrays;
 
 @Slf4j
 @RestController
-@Api(value = "用户组管理相关接口", tags = {"用户组管理相关接口"})
+@Tag(name = "GroupRestApi", description ="用户组管理接口")
 @RequestMapping("/group")
 public class GroupRestApi {
   @Autowired
   GroupService groupService;
 
-  @ApiOperation(value = "删除用户组", notes = "删除用户组")
+  @Operation(summary = "删除用户组", description = "删除用户组")
   @DeleteMapping("/deleteGroup")
   public RestApiResponse deleteGroup(@RequestParam(name = "id", required = true) String groupid) {
     groupService.deleteGroup(groupid);
@@ -39,7 +39,7 @@ public class GroupRestApi {
     return RestApiResponse.OK("成功删除用户组信息!");
   }
 
-  @ApiOperation(value = "批量删除用户组信息", notes = "用户组ids用逗号(,)分隔")
+  @Operation(summary = "批量删除用户组信息", description = "用户组ids用逗号(,)分隔")
   @DeleteMapping("/deleteGroupByIds")
   public RestApiResponse deleteGroupByIds(@RequestParam(name = "ids", required = true) String ids) {
     groupService.deleteGroupByIds(Arrays.asList(ids.split(",")));
@@ -47,7 +47,7 @@ public class GroupRestApi {
     return RestApiResponse.OK("成功批量删除用户组信息!");
   }
 
-  @ApiOperation(value = "获得用户组信息")
+  @Operation(summary = "获得用户组信息")
   @GetMapping("/getGroupById")
   public RestApiResponse<Group> getGroupById(@RequestParam("id") String id) {
     Group orgGroup = groupService.getGroupById(id);
@@ -59,7 +59,7 @@ public class GroupRestApi {
     return RestApiResponse.OK(orgGroup);
   }
 
-  @ApiOperation(value = "查询用户组信息列表,多条件关系为and", notes = "查询用户组信息列表,多条件关系为and")
+  @Operation(summary = "查询用户组信息列表,多条件关系为and", description = "查询用户组信息列表,多条件关系为and")
   @PostMapping("/findGroupsByGroup")
   public RestApiResponse<PageResult<Group>> findGroupsByGroup(@RequestBody RestApiParamBody<Group> apiParam) {
 
@@ -72,7 +72,7 @@ public class GroupRestApi {
     return RestApiResponse.OK(groupPage);
   }
 
-  @ApiOperation(value = "查询用户组信息列表,多条件关系为OR",notes = "查询用户组信息列表,多条件关系为OR")
+  @Operation(summary = "查询用户组信息列表,多条件关系为OR",description = "查询用户组信息列表,多条件关系为OR")
   @PostMapping("/findGroupsByGroupAny")
   public RestApiResponse<PageResult<Group>> findGroupsByGroupAny(@RequestBody RestApiParamBody<Group> apiParam) {
 
@@ -92,7 +92,7 @@ public class GroupRestApi {
     return  RestApiResponse.OK(groupPage);
   }
 
-  @ApiOperation(value = "新增或更新用户组信息", notes = "新增或更新用户组信息")
+  @Operation(summary = "新增或更新用户组信息", description = "新增或更新用户组信息")
   @PostMapping("/saveGroup")
   public RestApiResponse<Group> saveGroup(@Valid @RequestBody Group group) {
     Group orgGroup = groupService.saveGroup(group);

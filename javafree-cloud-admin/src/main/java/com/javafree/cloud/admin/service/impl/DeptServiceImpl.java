@@ -21,7 +21,10 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -169,6 +172,36 @@ public class DeptServiceImpl implements DeptService {
                 .withMatcher("description", ExampleMatcher.GenericPropertyMatchers.contains());
         Example<Dept> example = Example.of(dept, matcher);
         return PageResult.of(deptDao.findAll(example, pageable));
+    }
+
+    public Page<Dept> findVenueList(Pageable pageable,String name,String [] hobbies,Integer age, String brirth) {
+        Specification<Dept> specification=new Specification<Dept>() {
+            @Override
+            public Predicate toPredicate(Root<Dept> root, CriteriaQuery<?> criteriaQuery, CriteriaBuilder criteriaBuilder) {
+                List<Predicate> listAnd=new ArrayList<>(); //组装and语句
+                if(StringUtils.hasText(name)) {
+                    listAnd.add(criteriaBuilder.like(root.get("name"), "%" + name));  //姓名 模糊查询
+                }
+                if(age!=null) {
+                    listAnd.add(criteriaBuilder.equal(root.get("age"), age)); //年龄
+                }
+                if(StringUtils.hasText(brirth)) {
+                    listAnd.add(criteriaBuilder.like(root.get("brirth"), "%" + brirth + "%")); //出生地 模糊查询
+                }
+                Predicate predicateAnd = criteriaBuilder.and(listAnd.toArray(new Predicate[listAnd.size()])); //AND查询加入查询条件
+                List<Predicate> listOr = new ArrayList<>();///组装or语句
+                if(hobbies!=null && hobbies.length>0) {
+                    for (String hoobbie : hobbies) {
+                        //爱好多选 用OR链接
+                        listOr.add(criteriaBuilder.equal(root.get("hobbie"), hoobbie));
+                    }
+                }
+                Predicate predicateOR = criteriaBuilder.or(listOr.toArray(new Predicate[listOr.size()])); //OR查询加入查询条件
+                return criteriaQuery.where(predicateAnd,predicateOR).getRestriction();
+            }
+        };
+        Page<Dept> page=deptDao.findAll(specification,pageable);
+        return page;
     }
 
     @Override

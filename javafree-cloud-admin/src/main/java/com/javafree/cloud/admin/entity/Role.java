@@ -1,8 +1,7 @@
 package com.javafree.cloud.admin.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -15,14 +14,14 @@ import java.util.Date;
 
 @Entity
 @Table(name ="sys_org_role")
-@ApiModel(value = " Role对象 ", description = "角色表")
+@Schema(name = " Role对象 ", description = "角色表")
 public class Role  implements Serializable{
 	private static final Long serialVersionUID = -580842572025346573L;
 
 	/**
 	 * 主键id
 	 */
-	@ApiModelProperty("主键id")
+	@Schema(name = "id", description = "主键id")
 	@Id
 	@GenericGenerator(name = "javafree_uuid", strategy = "com.javafree.cloud.common.id.JavaFreeUUIDGenerator")
 	@GeneratedValue(generator = "javafree_uuid")
@@ -32,54 +31,54 @@ public class Role  implements Serializable{
 	/**
 	 * 角色名称
 	 */
-	@ApiModelProperty("角色名称")
+	@Schema(name = "roleName", description = "角色名称")
 	@Column(name = "role_name")
 	private String roleName;
 
 	/**
 	 * 角色编码
 	 */
-	@ApiModelProperty("角色编码")
+	@Schema(name = "roleCode", description = "角色编码")
 	@Column(name = "role_code")
 	private String roleCode;
 
 	/**
 	 * 角色类型，1默认，2职称、3岗位
 	 */
-	@ApiModelProperty("角色类型，1默认，2职称、3岗位")
+	@Schema(name = "roleType", description = "角色类型，1默认，2职称、3岗位")
 	@Column(name = "role_type")
 	private String roleType;
 
 	/**
 	 * 排序
 	 */
-	@ApiModelProperty("排序")
+	@Schema(name = "roleOrder", description = "排序")
 	@Column(name = "role_order")
 	private Integer roleOrder;
 
 	/**
 	 * 描述
 	 */
-	@ApiModelProperty("描述")
+	@Schema(name = "description", description = "描述")
 	@Column(name = "description")
 	private String description;
 
 	/**
 	 * 创建人
 	 */
-	@ApiModelProperty("创建人")
+	@Schema(name = "createBy", description = "创建人")
 	@Column(name = "create_by")
 	private String createBy;
 
 	/**
 	 * 创建时间
 	 */
-	@ApiModelProperty("创建时间")
+	@Schema(name = "createTime", description = "创建时间")
 	@Column(name = "create_time")
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private Date createTime;
 
-	@ApiModelProperty("创建时间查询，只用于查询，不持久")
+	@Schema(name = "createTimeEnd", description = "创建时间查询，只用于查询，不持久")
 	@Transient
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private Date createTimeEnd;
@@ -87,19 +86,19 @@ public class Role  implements Serializable{
 	/**
 	 * 更新人
 	 */
-	@ApiModelProperty("更新人")
+	@Schema(name = "updateBy", description = "更新人")
 	@Column(name = "update_by")
 	private String updateBy;
 
 	/**
 	 * 更新时间
 	 */
-	@ApiModelProperty("更新时间")
+	@Schema(name = "updateTime", description = "更新时间")
 	@Column(name = "update_time")
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private Date updateTime;
 
-	@ApiModelProperty("更新时间查询，只用于查询，不持久")
+	@Schema(name = "updateTimeEnd", description = "更新时间查询，只用于查询，不持久")
 	@Transient
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private Date updateTimeEnd;

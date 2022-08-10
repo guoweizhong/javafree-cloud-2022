@@ -2,8 +2,7 @@ package com.javafree.cloud.admin.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.GenericGenerator;
@@ -20,7 +19,7 @@ import java.util.Date;
 @DynamicInsert
 @DynamicUpdate
 @Table(name ="sys_org_user")
-@ApiModel(value = " User POJO ", description = "用户表")
+@Schema(name = " User POJO ", description = "用户表")
 public class User  implements Serializable{
 
 	private static final Long serialVersionUID = 340634693098971099L;
@@ -28,7 +27,7 @@ public class User  implements Serializable{
 	/**
 	 * 主键id
 	 */
-	@ApiModelProperty("主键id")
+	@Schema(name = "id", description = "主键id")
 	@Id
 	@GenericGenerator(name = "javafree_uuid", strategy = "com.javafree.cloud.common.id.JavaFreeUUIDGenerator")
 	@GeneratedValue(generator = "javafree_uuid")
@@ -38,14 +37,14 @@ public class User  implements Serializable{
 	/**
 	 * 登录账号，唯一
 	 */
-	@ApiModelProperty("登录账号，唯一")
+	@Schema(name = "username", description = "登录账号，唯一")
 	@Column(name = "username")
 	private String username;
 
 	/**
 	 * 真实姓名
 	 */
-	@ApiModelProperty("真实姓名")
+	@Schema(name = "realname", description = "真实姓名")
 	@Column(name = "realname")
 	private String realname;
 
@@ -53,7 +52,7 @@ public class User  implements Serializable{
 	/**
 	 * 排序
 	 */
-	@ApiModelProperty("排序")
+	@Schema(name = "userOrder", description = "排序")
 	@Column(name = "user_order")
 	private Integer userOrder;
 
@@ -62,7 +61,7 @@ public class User  implements Serializable{
 	/**
 	 * 密码
 	 */
-	@ApiModelProperty("密码")
+	@Schema(name = "password", description = "密码")
 	@Column(name = "password")
 	//在接口中不返回密码数据
 	@JsonIgnore
@@ -71,14 +70,14 @@ public class User  implements Serializable{
 	/**
 	 * md5密码盐
 	 */
-	@ApiModelProperty("md5密码盐")
+	@Schema(name = "salt", description = "md5密码盐")
 	@Column(name = "salt")
 	private String salt;
 
 	/**
 	 * 头像
 	 */
-	@ApiModelProperty("头像")
+	@Schema(name = "avatar", description = "头像")
 	@Column(name = "avatar")
 	private String avatar;
 
@@ -87,28 +86,28 @@ public class User  implements Serializable{
 	/**
 	 * 性别(0-默认未知,1-男,2-女)
 	 */
-	@ApiModelProperty("性别(0-默认未知,1-男,2-女)")
+	@Schema(name = "sex", description = "性别(0-默认未知,1-男,2-女)")
 	@Column(name = "sex")
 	private Integer sex;
 
 	/**
 	 * 电子邮件
 	 */
-	@ApiModelProperty("电子邮件")
+	@Schema(name = "email", description = "电子邮件")
 	@Column(name = "email")
 	private String email;
 
 	/**
 	 * 电话
 	 */
-	@ApiModelProperty("电话")
+	@Schema(name = "phone", description = "电话")
 	@Column(name = "phone")
 	private String phone;
 
 	/**
 	 * 状态(1-正常,2-冻结)
 	 */
-	@ApiModelProperty("状态(1-正常,2-冻结)")
+	@Schema(name = "status", description = "状态(1-正常,2-冻结)")
 	@Column(name = "status")
 	private Integer status;
 
@@ -116,21 +115,21 @@ public class User  implements Serializable{
 	/**
 	 * 工号，唯一键
 	 */
-	@ApiModelProperty("工号，唯一键")
+	@Schema(name = "workNo", description = "工号，唯一键")
 	@Column(name = "work_no")
 	private String workNo;
 
 	/**
 	 * 创建人
 	 */
-	@ApiModelProperty("创建人")
+	@Schema(name = "createBy", description = "创建人")
 	@Column(name = "create_by")
 	private String createBy;
 
 	/**
 	 * 创建时间
 	 */
-	@ApiModelProperty("创建时间")
+	@Schema(name = "createTime", description = "创建时间")
 	@Column(name = "create_time")
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private Date createTime;
@@ -138,14 +137,14 @@ public class User  implements Serializable{
 	/**
 	 * 更新人
 	 */
-	@ApiModelProperty("更新人")
+	@Schema(name = "updateBy", description = "更新人")
 	@Column(name = "update_by")
 	private String updateBy;
 
 	/**
 	 * 更新时间
 	 */
-	@ApiModelProperty("更新时间")
+	@Schema(name = "updateTime", description = "更新时间")
 	@Column(name = "update_time")
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private Date updateTime;
@@ -153,21 +152,21 @@ public class User  implements Serializable{
 	/**
 	 * 用户类型，可按业务需要扩展（1普通用户 2管理员...）
 	 */
-	@ApiModelProperty("用户类型，可按业务需要扩展（1普通用户 2管理员...）")
+	@Schema(name = "userType", description = "用户类型，可按业务需要扩展（1普通用户 2管理员...）")
 	@Column(name = "user_type")
 	private Integer userType;
 
 	/**
 	 * 用于字段扩展，可用json格式
 	 */
-	@ApiModelProperty("用于字段扩展，可用json格式")
+	@Schema(name = "extData", description = "用于字段扩展，可用json格式")
 	@Column(name = "ext_data")
 	private String extData;
 
 	/**
 	 * 昵称
 	 */
-	@ApiModelProperty("昵称")
+	@Schema(name = "nickname", description = "昵称")
 	@Column(name = "nickname")
 	private String nickname;
 

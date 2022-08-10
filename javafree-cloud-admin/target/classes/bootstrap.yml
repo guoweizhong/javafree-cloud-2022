@@ -3,7 +3,6 @@ spring:
   application:
     name: javafree-cloud-admin
   cloud:
-
     nacos:
 #      discovery:
 #        server-addr: 127.0.0.1:8848
@@ -15,3 +14,36 @@ spring:
 
   profiles:
     active: dev #指定环境类型 (dev：开发，prod：生产，uat:用户验证，test:测试) 分别对应application-{环境类型}.yml文件
+  # redis 相关配置
+  redis:
+    # 连接超时时间（毫秒）
+    timeout: 1200
+    # Redis数据库索引（默认为0）
+    database: 0
+    # Redis服务器地址 ${HOST:localhost}
+    host: 127.0.0.1
+    # Redis服务器连接端口
+    port: 6379
+    # Redis服务器连接密码（默认为空）
+    password: 123456
+    ssl: false
+    #lettuce 连接池配置，基于netty nio 如果让lettuce池生效需要引入 commons-pool2
+    lettuce:
+      pool:
+        # 连接池最大连接数（使用负值表示没有限制）
+        max-active: 8
+        # 连接池中的最大空闲连接
+        max-idle: 8
+        # 连接池中的最小空闲连接
+        min-idle: 0
+        # 连接池最大阻塞等待时间（使用负值表示没有限制）,缺省值-1
+        max-wait: 30s
+  cache:
+    type: redis
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+debug: false

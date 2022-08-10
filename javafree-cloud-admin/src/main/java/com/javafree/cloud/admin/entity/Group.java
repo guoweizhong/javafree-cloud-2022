@@ -1,8 +1,7 @@
 package com.javafree.cloud.admin.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.GenericGenerator;
@@ -19,7 +18,7 @@ import java.util.Date;
 @DynamicInsert
 @DynamicUpdate
 @Table(name ="sys_org_group")
-@ApiModel(value = " Group POJO ", description = "群组表")
+@Schema(name = " Group POJO ", description = "群组表")
 public class Group  implements Serializable{
 
 	private static final Long serialVersionUID = 8680431031428398002L;
@@ -27,7 +26,7 @@ public class Group  implements Serializable{
 	/**
 	 * 主键id
 	 */
-	@ApiModelProperty("主键id")
+	@Schema(name = "id", description = "主键id")
 	@Id
 	@GenericGenerator(name = "javafree_uuid", strategy = "com.javafree.cloud.common.id.JavaFreeUUIDGenerator")
 	@GeneratedValue(generator = "javafree_uuid")
@@ -37,42 +36,42 @@ public class Group  implements Serializable{
 	/**
 	 * 群组名称
 	 */
-	@ApiModelProperty("群组名称")
+	@Schema(name = "groupName", description = "群组名称")
 	@Column(name = "group_name")
 	private String groupName;
 
 	/**
 	 * 群组编码
 	 */
-	@ApiModelProperty("群组编码")
+	@Schema(name = "groupCode", description = "群组编码")
 	@Column(name = "group_code")
 	private String groupCode;
 
 	/**
 	 * 排序
 	 */
-	@ApiModelProperty("排序")
+	@Schema(name = "groupOrder", description = "排序")
 	@Column(name = "group_order")
 	private Integer groupOrder;
 
 	/**
 	 * 描述
 	 */
-	@ApiModelProperty("描述")
+	@Schema(name = "description", description = "描述")
 	@Column(name = "description")
 	private String description;
 
 	/**
 	 * 创建人
 	 */
-	@ApiModelProperty("创建人")
+	@Schema(name = "createBy", description = "创建人")
 	@Column(name = "create_by")
 	private String createBy;
 
 	/**
 	 * 创建时间
 	 */
-	@ApiModelProperty("创建时间")
+	@Schema(name = "createTime", description = "创建时间")
 	@Column(name = "create_time")
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private Date createTime;
@@ -80,14 +79,14 @@ public class Group  implements Serializable{
 	/**
 	 * 更新人
 	 */
-	@ApiModelProperty("更新人")
+	@Schema(name = "updateBy", description = "更新人")
 	@Column(name = "update_by")
 	private String updateBy;
 
 	/**
 	 * 更新时间
 	 */
-	@ApiModelProperty("更新时间")
+	@Schema(name = "updateTime", description = "更新时间")
 	@Column(name = "update_time")
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private Date updateTime;

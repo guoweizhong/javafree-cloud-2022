@@ -64,6 +64,18 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
+    public List<Role> getRolesListByRole(Role role) {
+        //条件间的关系是and
+        ExampleMatcher matcher = ExampleMatcher.matching()
+                //全部模糊查询，即%{role}%
+                .withMatcher("roleName", ExampleMatcher.GenericPropertyMatchers.contains())
+                //忽略为空值字段
+                .withIgnoreNullValues();
+        Example<Role> example = Example.of(role, matcher);
+        return roleDao.findAll(example);
+    }
+
+    @Override
     public PageResult<Role> findRolesByName(String name, PageParam pageParam) {
         Role role = new Role();
         role.setRoleName(name);

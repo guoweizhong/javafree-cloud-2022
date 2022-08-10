@@ -1,8 +1,7 @@
 package com.javafree.cloud.admin.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.GenericGenerator;
@@ -21,7 +20,7 @@ import java.util.Date;
 @DynamicUpdate
 @DynamicInsert
 @Table(name ="sys_org_tenant")
-@ApiModel(value = " Tenant对象 ", description = "租户信息表")
+@Schema(name = " Tenant对象 ", description = "租户信息表")
 public class Tenant  implements Serializable{
 
 	private static final Long serialVersionUID = 5000011386803060891L;
@@ -29,7 +28,7 @@ public class Tenant  implements Serializable{
 	/**
 	 * 主键id
 	 */
-	@ApiModelProperty("主键id")
+	@Schema(name = "id", description = "主键id")
 	@Id
 	@GenericGenerator(name = "javafree_uuid", strategy = "com.javafree.cloud.common.id.JavaFreeUUIDGenerator")
 	@GeneratedValue(generator = "javafree_uuid")
@@ -39,48 +38,48 @@ public class Tenant  implements Serializable{
 	/**
 	 * 租户名称
 	 */
-	@ApiModelProperty("租户名称")
+	@Schema(name = "name", description = "租户名称")
 	@Column(name = "name")
 	private String name;
 
 	/**
 	 * 租户编码，值唯一
 	 */
-	@ApiModelProperty("租户编码，值唯一")
+	@Schema(name = "tenantCode", description = "租户编码，值唯一")
 	@Column(name = "tenant_code")
 	private String tenantCode;
 
 	/**
 	 * 排序
 	 */
-	@ApiModelProperty("排序")
+	@Schema(name = "tenantOrder", description = "排序")
 	@Column(name = "tenant_order")
 	private Integer tenantOrder;
 
 	/**
 	 * 描述
 	 */
-	@ApiModelProperty("描述")
+	@Schema(name = "description", description = "描述")
 	@Column(name = "description")
 	private String description;
 
 	/**
 	 * 创建人
 	 */
-	@ApiModelProperty("创建人")
+	@Schema(name = "createBy", description = "创建人")
 	@Column(name = "create_by")
 	private String createBy;
 
 	/**
 	 * 创建时间
 	 */
-	@ApiModelProperty("创建时间")
+	@Schema(name = "createTime", description = "创建时间")
 	@CreatedDate
 	@Column(name = "create_time")
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private Date createTime;
 
-	@ApiModelProperty("创建时间查询，只用于查询，不持久")
+	@Schema(name = "createTimeEnd", description = "创建时间查询，只用于查询，不持久")
 	@Transient
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private Date createTimeEnd;
@@ -88,20 +87,20 @@ public class Tenant  implements Serializable{
 	/**
 	 * 更新人
 	 */
-	@ApiModelProperty("更新人")
+	@Schema(name = "updateBy", description = "更新人")
 	@Column(name = "update_by")
 	private String updateBy;
 
 	/**
 	 * 更新时间
 	 */
-	@ApiModelProperty("更新时间")
+	@Schema(name = "updateTime", description = "更新时间")
 	@Column(name = "update_time")
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	@CreatedDate
 	private Date updateTime;
 
-	@ApiModelProperty("更新时间查询，只用于查询，不持久")
+	@Schema(name = "updateTimeEnd", description = "更新时间查询，只用于查询，不持久")
 	@Transient
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private Date updateTimeEnd;
@@ -125,14 +124,14 @@ public class Tenant  implements Serializable{
 	/**
 	 * 状态 1正常 0冻结
 	 */
-	@ApiModelProperty("状态 1正常 0冻结")
+	@Schema(name = "id", description = "状态 1正常 0冻结")
 	@Column(name = "status")
 	private Integer status;
 
 	/**
 	 * 用于字段扩展，可用json格式
 	 */
-	@ApiModelProperty("用于字段扩展，可用json格式")
+	@Schema(name = "extData", description = "用于字段扩展，可用json格式")
 	@Column(name = "ext_data")
 	private String extData;
 

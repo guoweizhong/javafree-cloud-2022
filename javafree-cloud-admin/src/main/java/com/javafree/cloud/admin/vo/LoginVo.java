@@ -1,7 +1,6 @@
 package com.javafree.cloud.admin.vo;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 import java.io.Serializable;
 
@@ -11,20 +10,20 @@ import java.io.Serializable;
  * @Author gwz  gwz126@126.com
  * @Date 2022/4/15 14:14
  */
-@ApiModel(value = " LoginVo对象 ", description = "LoginVo对象,用于登录页面传参")
+@Schema(name = " LoginVo对象 ", description = "LoginVo对象,用于登录页面传参")
 public class LoginVo implements Serializable {
 
-    @ApiModelProperty("登录名")
+    @Schema(name = "username", description = "登录名")
     String username;
-    @ApiModelProperty("登录密码")
+    @Schema(name = "password", description = "登录密码")
     String password;
-    @ApiModelProperty("是否自动登录")
+    @Schema(name = "autoLogin", description = "是否自动登录")
     boolean  autoLogin;
-    @ApiModelProperty("登录账号类型 mobile:手机或account:用户名")
+    @Schema(name = "type", description = "登录账号类型 mobile:手机或account:用户名")
     String  type;
-    @ApiModelProperty("手机号")
+    @Schema(name = "mobile", description = "手机号")
     String mobile;
-    @ApiModelProperty("手机验证码")
+    @Schema(name = "captcha", description = "手机验证码")
     String captcha;
 
     public String getUsername() {

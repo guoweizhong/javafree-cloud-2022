@@ -1,11 +1,10 @@
 package com.javafree.cloud.admin.controller;
 
 import com.javafree.cloud.admin.websocket.UserClientNoticeWebSocket;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -28,11 +27,11 @@ import org.springframework.web.bind.annotation.RestController;
  * @Author gwz  gwz126@126.com
  * @Date 2022/5/11 15:10
  */
-@Api(value = "发送websockt消息", tags = {"发送websockt消息"})
+@Tag(name = "发送websockt消息", description ="发送websockt消息")
 @RestController
 public class UsreClientWebSocketController {
 
-  @ApiOperation(value = "发送websockt消息", notes = "发送websockt消息")
+  @Operation(summary = "发送websockt消息", description = "发送websockt消息")
 
   @GetMapping(value = "/sent_message/{userid}/{message}")
   public void test(@PathVariable(value = "userid")  String userid,@PathVariable(value = "message")  String message){

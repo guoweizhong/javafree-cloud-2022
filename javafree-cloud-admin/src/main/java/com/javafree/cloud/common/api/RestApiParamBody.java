@@ -1,7 +1,6 @@
 package com.javafree.cloud.common.api;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 import java.io.Serializable;
 
@@ -35,13 +34,13 @@ import java.io.Serializable;
  * @Author gwz  gwz126@126.com
  * @Date 2021/11/30 13:43
  */
-@ApiModel(value = "接口查询参数对象", description = "接口查询参数对象，分为dataParam：查询条件参数对象，和pageParam：查询分页参数对象")
+@Schema(name = "接口查询参数对象", description = "接口查询参数对象，分为dataParam：查询条件参数对象，和pageParam：查询分页参数对象")
 public class RestApiParamBody<T> implements Serializable {
     private static final long serialVersionUID = 1928441826295030501L;
 
-    @ApiModelProperty("查询条件参数对象")
+    @Schema(name = "dataParam", description = "查询条件参数对象")
     private T dataParam;
-    @ApiModelProperty("查询分页参数对象")
+    @Schema(name = "pageParam", description = "查询分页参数对象")
     private PageParam pageParam;
 
     public T getDataParam() {
