@@ -1,6 +1,0 @@
-#此文件放于微服务配置中心中，文件名为javafree-cloud-gateway-dev.yml
-server:
-  port: 9000
-spring:
-  application:
-    name: javafree-gateway
