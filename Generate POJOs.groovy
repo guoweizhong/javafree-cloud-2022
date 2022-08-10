@@ -1,12 +1,6 @@
 import com.intellij.database.model.DasTable
-import com.intellij.database.model.ObjectKind
 import com.intellij.database.util.Case
 import com.intellij.database.util.DasUtil
-
-import java.util.Random
-
-import java.time.LocalDateTime
-
 /*
  * Available context bindings:
  *   SELECTION   Iterable<DasObject>
@@ -59,9 +53,9 @@ def generate(out, className, fields, table) {
     out.println "import org.hibernate.annotations.DynamicInsert;"
     out.println "import org.hibernate.annotations.DynamicUpdate;"
     out.println "import java.util.Date;"
-    out.println "import io.swagger.annotations.ApiModel;"
-    out.println "import io.swagger.annotations.ApiModelProperty;"
+    out.println "import io.swagger.v3.oas.annotations.media.Schema;"
     out.println "import com.fasterxml.jackson.annotation.JsonFormat;"
+
 
 
 
@@ -79,7 +73,7 @@ def generate(out, className, fields, table) {
     out.println "@DynamicUpdate" //只更新修改过且有值的字段
     out.println "@Table(name =\"" + table.getName() + "\")"
     //swagger ApiModel
-    out.println "@ApiModel(value = \" "+className+" POJO \", description = \""+ table.getComment()+"\")"
+    out.println "@Schema(name = \" "+className+" POJO \", description = \""+ table.getComment()+"\")"
     out.println "public class $className $extendClass implements Serializable{"
     out.println ""
 
@@ -96,7 +90,7 @@ def generate(out, className, fields, table) {
         }
         //输出swagger 注解
         if (isNotEmpty(it.commoent)) {
-            out.println "\t@ApiModelProperty(\"${it.commoent}\")"
+            out.println "\t@Schema(name=\"${it.name}\", description = \"${it.commoent}\")"
         }
         if (it.annos != "" && it.annos!=null) out.println "  ${it.annos}"
         if (it.date != ""&& it.date!=null) out.println "  ${it.date}"
@@ -134,6 +128,8 @@ def calcFields(table) {
             comm.annos = "\t@Id\n"
             comm.annos +="\t@GenericGenerator(name = \"javafree_uuid\", strategy = \"com.javafree.cloud.common.id.JavaFreeUUIDGenerator\")\n"
             comm.annos += "\t@GeneratedValue(generator = \"javafree_uuid\")\n"
+            //中文乱码，无法解决
+            //comm.annos += "\t@Length(min=1,max = 22,message = \"长度范围在1-22之间\")\n"
             //uuid2生成的ID是36位，所以要將原來的32改為36 又改为自定义nanoid 只要21位，这里设置22
             comm.annos += "\t@Column(name = \"" + col.getName() + "\",length = 22)"
         }
